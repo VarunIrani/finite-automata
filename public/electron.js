@@ -8,7 +8,13 @@ const isDev = require("electron-is-dev");
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 1080, height: 680 });
+  mainWindow = new BrowserWindow({
+    width: 1080,
+    height: 680,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+  });
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"

@@ -1,25 +1,41 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Dropdown } from 'react-bootstrap';
 
 class MenuBar extends React.Component {
 	render() {
 		return (
-			<Navbar bg="primary" variant="dark" sticky="top">
-				<Navbar.Brand href="#home">FASIM</Navbar.Brand>
-				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+			<Navbar bg="primary" variant="dark" fixed="top">
+				<Navbar.Brand style={{ color: 'white' }}>FASIM</Navbar.Brand>
+				<Navbar.Toggle style={{ color: 'white' }} aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="mr-auto">
-						<NavDropdown title="File" id="file-dropdown">
-							<NavDropdown.Item>New</NavDropdown.Item>
-							<NavDropdown.Item>Import</NavDropdown.Item>
-							<NavDropdown.Item>Export</NavDropdown.Item>
-							<NavDropdown.Divider />
-							<NavDropdown.Item>Exit</NavDropdown.Item>
-						</NavDropdown>
-						<NavDropdown title="Add" id="basic-nav-dropdown">
-							<NavDropdown.Item>State</NavDropdown.Item>
-							<NavDropdown.Item>Final State</NavDropdown.Item>
-						</NavDropdown>
+						<Dropdown>
+							<Dropdown.Toggle variant="primary" id="file-menu">
+								File
+							</Dropdown.Toggle>
+							<Dropdown.Menu aria-labelledby="file-menu">
+								<Dropdown.Item
+									onClick={() => {
+										this.props.newSketch();
+									}}
+								>
+									New
+								</Dropdown.Item>
+								<Dropdown.Item>Import</Dropdown.Item>
+								<Dropdown.Item>Export</Dropdown.Item>
+								<Dropdown.Divider />
+								<Dropdown.Item>Exit</Dropdown.Item>
+							</Dropdown.Menu>
+						</Dropdown>
+						<Dropdown>
+							<Dropdown.Toggle variant="primary" id="help-menu">
+								Help
+							</Dropdown.Toggle>
+							<Dropdown.Menu>
+								<Dropdown.Item>Manual</Dropdown.Item>
+								<Dropdown.Item>Contact</Dropdown.Item>
+							</Dropdown.Menu>
+						</Dropdown>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
