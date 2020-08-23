@@ -5,6 +5,6 @@
       <circle cx="68.5" cy="68.5" r="67" fill="none"/>
     </g>
     <text id="S" transform="translate(449 595)" font-size="50" font-family="HelveticaNeue, Helvetica Neue"><tspan x="0" y="0">S</tspan></text>
-    <path id="arrow" d="M89.045,36.553,58.417,61.924l2.621,3.113,36.622-30.6L61.037,4,58.413,7.109,89.049,32.484H0v4.069H89.045Z" transform="translate(299 543)" fill-rule="evenodd"/>
+    <path id="arrow" d="M61.037,36.553V51.678L97.66,34.433,61.037,17.23V32.484H0v4.069H61.037Z" transform="translate(299 543)" fill-rule="evenodd"/>
   </g>
 </svg>

@@ -19,6 +19,7 @@ export default class ToolBar extends React.Component {
 					>
 						<InitState />
 					</Button>
+
 					<Button
 						variant="white"
 						className="pb-3 pt-3"

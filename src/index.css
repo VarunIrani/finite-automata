@@ -11,6 +11,10 @@
 	/* IE10+ */
 }
 
-*.dropdown-toggle.btn.btn-primary::after {
+*.dropdown-toggle.btn.btn-transparent::after {
 	content: none;
+}
+
+canvas {
+	z-index: -99;
 }
