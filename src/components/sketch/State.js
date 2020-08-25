@@ -1,3 +1,5 @@
+import Transition from "./Transition";
+
 export const StateType = {
   INITIAL: "INITIAL",
   FINAL: "FINAL",
@@ -18,7 +20,7 @@ export default class State {
     this.rollover = false; // Is the mouse over the ellipse?
     this.connecting = false;
     this.connected = false;
-    this.connectedTo = [];
+    this.transitions = [];
     this.intersecting = false;
     this.x = x;
     this.y = y;
@@ -75,45 +77,13 @@ export default class State {
     }
   }
 
-  showConnections(states) {
-    this.p5.stroke(CONNECTION_COLOR);
-    this.connectedTo.forEach((connection) => {
-      const connectingState = states[connection];
-      let base = this.p5.createVector(this.x, this.y);
-      let vec = this.p5.createVector(
-        connectingState.x - base.x,
-        connectingState.y - base.y,
-      );
-      // this.p5.line(this.x, this.y, connectingState.x, connectingState.y);
-      this.drawArrow(base, vec, CONNECTION_COLOR, true, true);
-
-      // let x1, x2, y1, y2, m, midX, midY;
-      // x1 = this.x;
-      // x2 = connectingState.x;
-      // y1 = this.y;
-      // y2 = connectingState.y;
-      // midX = (x1 + x2) / 2;
-      // midY = (y1 + y2) / 2;
-      // const d = this.p5.dist(x1, y1, x2, y2);
-      // m = (y2 - y1) / (x2 - x1);
-      // let dy = this.p5.sqrt(this.p5.pow(d * 2, 2) / (this.p5.pow(m, 2) + 1));
-      // let dx = -m * dy;
-
-      // let x = midX + dx;
-      // let y = midY + dy;
-      // let flip = 1;
-      // if (connection === this.index) {
-      // 	flip = -1;
-      // } else {
-      // 	flip = 1;
-      // }
-
-      // this.p5.noFill();
-      // this.p5.curve(x, flip * y, x1, y1, x2, y2, x, flip * y);
+  showTransitions() {
+    this.transitions.forEach((transition) => {
+      transition.show();
     });
   }
 
-  connect(states) {
+  connect() {
     const mouseX = this.p5.mouseX;
     const mouseY = this.p5.mouseY;
     this.p5.strokeWeight(2);
@@ -122,12 +92,12 @@ export default class State {
     if (this.connecting) {
       let base = this.p5.createVector(this.x, this.y);
       let vec = this.p5.createVector(mouseX - base.x, mouseY - base.y);
-      if (this.connectedTo.length) {
-        this.showConnections(states);
+      if (this.transitions.length) {
+        this.showTransitions();
       }
       this.drawArrow(base, vec, CONNECTING_COLOR, true, false);
     } else if (this.connected) {
-      this.showConnections(states);
+      this.showTransitions();
     }
   }
 
@@ -141,7 +111,7 @@ export default class State {
       vec.setMag(vec.mag() - this.r);
     }
     this.p5.line(0, 0, vec.x, vec.y);
-    let arrowSize = 7;
+    let arrowSize = 10;
     if (rotating) {
       this.p5.rotate(vec.heading());
     }
@@ -170,6 +140,7 @@ export default class State {
         this.x - this.r - base.x,
         this.y - base.y,
       );
+      // Custom arrow for INITIAL State
       if (this.rollover || this.dragging) {
         this.drawArrow(base, vec, SELECT_COLOR, false, false);
       } else {
@@ -226,8 +197,31 @@ export default class State {
           this.p5.dist(connectingState.x, connectingState.y, mouseX, mouseY),
         );
         if (d < connectingState.r) {
-          console.log(`${this.name} -> ${connectingState.name}`);
-          this.connectedTo.push(connectingState.index);
+          if (this.transitions.length) {
+            this.transitions.forEach((t) => {
+              if (t.to.index !== connectingState.index) {
+                this.transitions.push(
+                  new Transition(
+                    this.p5,
+                    this,
+                    connectingState,
+                    CONNECTION_COLOR,
+                  ),
+                );
+                return;
+              }
+            });
+          } else {
+            this.transitions.push(
+              new Transition(
+                this.p5,
+                this,
+                connectingState,
+                CONNECTION_COLOR,
+              ),
+            );
+          }
+
           this.connected = true;
         } else {
           this.connecting = false;

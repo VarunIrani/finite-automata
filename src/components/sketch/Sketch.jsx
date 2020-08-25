@@ -27,22 +27,15 @@ class Sketch extends React.Component {
   addState(stateType) {
     let states = this.state.states;
     const p5 = this.state.p5;
-    let x = p5.random(p5.width * 0.1, p5.width - 50);
-    let y = p5.random(100, p5.height - 50);
     let newState = new State(
       p5,
-      x,
-      y,
+      p5.width / 2,
+      p5.height / 2,
       50,
       "S" + this.state.numStates,
       this.state.numStates,
       stateType,
     );
-    for (let i = 0; i < states.length; i++) {
-      if (states[i].edgeIntersects(newState)) {
-        return;
-      }
-    }
     states.push(newState);
     this.setState(
       { numStates: this.state.numStates + 1, states },
@@ -66,7 +59,7 @@ class Sketch extends React.Component {
     p5.background(255);
     this.state.states.forEach((state) => {
       state.setP5(p5);
-      state.connect(this.state.states);
+      state.connect();
       state.over();
       state.update();
       state.show();
