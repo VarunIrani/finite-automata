@@ -6,9 +6,9 @@ export const StateType = {
 	NORMAL: 'NORMAL'
 };
 
-const SELECT_COLOR = '#454ade';
-const CONNECTING_COLOR = '#454ade';
-const CONNECTION_COLOR = '#f18701';
+const SELECT_COLOR = '#f18701';
+const CONNECTION_COLOR = '#454ade';
+const CONNECTING_COLOR = '#f18701';
 const SUCCESS_COLOR = '#00916e';
 
 let fromTo = [];
@@ -184,28 +184,25 @@ export default class State {
 					this.offsetY = this.y - mouseY;
 				}
 			}
-		} else if (this.connecting) {
+		}
+		if (this.connecting) {
 			for (let i = 0; i < states.length; i++) {
 				let connectingState = states[i];
 				d = this.p5.int(this.p5.dist(connectingState.x, connectingState.y, mouseX, mouseY));
 				if (d < connectingState.r) {
-					if (fromTo.indexOf({ from: this.index, to: connectingState.index }) === -1) {
+					if (fromTo.filter((value) => value.from === this.index && value.to === connectingState.index).length === 0) {
 						if (this.index === connectingState.index) {
 							this.transitions.push(new Transition(this.p5, this, this, CONNECTION_COLOR));
-							fromTo.push({ from: this.index, to: this.index });
+						} else {
+							this.transitions.push(new Transition(this.p5, this, connectingState, CONNECTION_COLOR));
 						}
-						this.transitions.push(new Transition(this.p5, this, connectingState, CONNECTION_COLOR));
 						fromTo.push({ from: this.index, to: connectingState.index });
+						this.connected = true;
 					}
-					this.connected = true;
 					this.connecting = false;
 				} else {
 					this.connecting = false;
 				}
-			}
-		} else {
-			if (d < this.r) {
-				console.log('Clicked on state', this.name);
 			}
 		}
 	}
