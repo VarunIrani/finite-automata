@@ -1,7 +1,13 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Modal, Button } from "react-bootstrap";
 import p5 from "p5";
+import globals from "../../globals";
 import State from "./State";
+
+const LETTERS = (() => {
+  const caps = [...Array(26)].map((val, i) => String.fromCharCode(i + 65));
+  return caps.concat(caps.map((letter) => letter.toLowerCase()));
+})();
 
 class Sketch extends React.Component {
   constructor(props) {
@@ -10,6 +16,7 @@ class Sketch extends React.Component {
       states: [],
       numStates: 0,
       p5: null,
+      showSettingsModal: false,
     };
     this.newSketch = this.newSketch.bind(this);
     this.addState = this.addState.bind(this);
@@ -18,6 +25,7 @@ class Sketch extends React.Component {
     this.mousePressed = this.mousePressed.bind(this);
     this.mouseReleased = this.mouseReleased.bind(this);
     this.doubleClicked = this.doubleClicked.bind(this);
+    this.toggleSettings = this.toggleSettings.bind(this);
   }
 
   newSketch() {
@@ -32,14 +40,12 @@ class Sketch extends React.Component {
       p5.width / 2,
       p5.height / 2,
       50,
-      "S" + this.state.numStates,
+      LETTERS[this.state.numStates],
       this.state.numStates,
       stateType,
     );
     states.push(newState);
-    this.setState(
-      { numStates: this.state.numStates + 1, states },
-    );
+    this.setState({ numStates: this.state.numStates + 1, states });
   }
 
   componentDidMount() {
@@ -76,6 +82,7 @@ class Sketch extends React.Component {
     this.state.states.forEach((state) => {
       state.released();
     });
+    this.setState({ showSettingsModal: globals.showSettings });
   };
 
   doubleClicked = (p5) => {
@@ -97,8 +104,33 @@ class Sketch extends React.Component {
     p5.doubleClicked = () => this.doubleClicked(p5);
   };
 
+  toggleSettings() {
+    this.setState({ showSettingsModal: !this.state.showSettingsModal });
+    globals.showSettings = false;
+  }
+
   render() {
-    return <Container id="sketch-holder" />;
+    return <div>
+      <Container id="sketch-holder" />
+      {this.state.showSettingsModal
+        ? <Modal.Dialog style={{ zIndex: 9999 }}>
+          <Modal.Header>
+            <Modal.Title>State {globals.selectedState.name}</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Show Settings for State {globals.selectedState.name}</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="danger" onClick={this.toggleSettings}>
+              Close
+            </Button>
+            <Button variant="success">Save changes</Button>
+          </Modal.Footer>
+        </Modal.Dialog>
+        : null}
+    </div>;
   }
 }
 

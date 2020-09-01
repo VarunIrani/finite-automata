@@ -2,13 +2,13 @@ const STATE_RADIUS = 25;
 const ARROW_SIZE = 10;
 
 export default class Transition {
-  constructor(p5, from, to, color) {
+  constructor(p5, from, to, color, value) {
     this.p5 = p5;
     this.from = from;
     this.to = to;
     this.color = color;
     this.controlPoints = [];
-    this.value = p5.random() < 0.5 ? "0" : "1";
+    this.value = value;
   }
 
   getControlPoints(start, end) {

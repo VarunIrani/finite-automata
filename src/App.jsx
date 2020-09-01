@@ -26,7 +26,10 @@ class App extends React.Component {
         </Container>
         <Container fluid>
           <Row>
-            <Col sm="1" style={{ paddingTop: "19%" }}>
+            <Col
+              sm="1"
+              style={{ zIndex: 999, position: "absolute", top: 80 }}
+            >
               <ToolBar
                 addState={(stateType) => {
                   this.sketch.addState(stateType);
