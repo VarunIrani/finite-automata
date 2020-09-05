@@ -23,18 +23,18 @@ export default class SettingsModal extends Component {
 	}
 
 	changeValue(value, i) {
-		console.log(value);
 		if (value.length === 0) {
 			globals.selectedState.transitions[i].value = 'ε';
 		} else {
 			globals.selectedState.transitions[i].value = value;
 		}
-		// this.setState({});
 	}
 
 	deleteTransition(i) {
-		globals.selectedState.transitions.splice(i, 1);
-		globals.selectedState.fromTo.splice(i, 1);
+		let toBeRemoved = globals.selectedState.transitions.filter((e) => e.index === i);
+		let index = globals.selectedState.transitions.indexOf(toBeRemoved[0]);
+		globals.selectedState.transitions.splice(index, 1);
+		globals.selectedState.fromTo.splice(index, 1);
 
 		this.setState({});
 	}
@@ -88,7 +88,21 @@ export default class SettingsModal extends Component {
 												</Row>
 											</Col>
 											{t.from.index === t.to.index ? (
-												<Col />
+												<Col className="text-left">
+													<Row>
+														<Col lg="6" />
+														<Col lg="6" className="text-right">
+															<Button
+																variant="danger"
+																onClick={() => {
+																	this.deleteTransition(t.index);
+																}}
+															>
+																<FontAwesomeIcon icon={faTrash} />
+															</Button>
+														</Col>
+													</Row>
+												</Col>
 											) : (
 												<Col className="text-left">
 													<Row>
