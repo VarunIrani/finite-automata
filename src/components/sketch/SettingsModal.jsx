@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { Modal, Button, Row, Col, DropdownButton, Dropdown, Form, Container } from 'react-bootstrap';
 import globals from '../../globals';
 import { LineType } from './Transition';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default class SettingsModal extends Component {
 	constructor() {
 		super();
 		this.changeLineType = this.changeLineType.bind(this);
 		this.changeValue = this.changeValue.bind(this);
+		this.deleteTransition = this.deleteTransition.bind(this);
 	}
 
 	changeLineType(value, i) {
@@ -27,6 +30,13 @@ export default class SettingsModal extends Component {
 			globals.selectedState.transitions[i].value = value;
 		}
 		// this.setState({});
+	}
+
+	deleteTransition(i) {
+		globals.selectedState.transitions.splice(i, 1);
+		globals.selectedState.fromTo.splice(i, 1);
+
+		this.setState({});
 	}
 
 	render() {
@@ -81,26 +91,40 @@ export default class SettingsModal extends Component {
 												<Col />
 											) : (
 												<Col className="text-left">
-													<DropdownButton variant="dark" id="line-type-dropdown" title={t.lineType}>
-														<Dropdown.Item as="button">
-															<div
-																onClick={(e) => {
-																	this.changeLineType(e.target.textContent, t.index);
+													<Row>
+														<Col lg="6">
+															<DropdownButton variant="dark" id="line-type-dropdown" title={t.lineType}>
+																<Dropdown.Item as="button">
+																	<div
+																		onClick={(e) => {
+																			this.changeLineType(e.target.textContent, t.index);
+																		}}
+																	>
+																		Curve
+																	</div>
+																</Dropdown.Item>
+																<Dropdown.Item as="button">
+																	<div
+																		onClick={(e) => {
+																			this.changeLineType(e.target.textContent, t.index);
+																		}}
+																	>
+																		Line
+																	</div>
+																</Dropdown.Item>
+															</DropdownButton>
+														</Col>
+														<Col lg="6" className="text-right">
+															<Button
+																variant="danger"
+																onClick={() => {
+																	this.deleteTransition(t.index);
 																}}
 															>
-																Curve
-															</div>
-														</Dropdown.Item>
-														<Dropdown.Item as="button">
-															<div
-																onClick={(e) => {
-																	this.changeLineType(e.target.textContent, t.index);
-																}}
-															>
-																Line
-															</div>
-														</Dropdown.Item>
-													</DropdownButton>
+																<FontAwesomeIcon icon={faTrash} />
+															</Button>
+														</Col>
+													</Row>
 												</Col>
 											)}
 										</Row>

@@ -12,8 +12,6 @@ const CONNECTION_COLOR = '#454ade';
 const CONNECTING_COLOR = '#f18701';
 const SUCCESS_COLOR = '#00916e';
 
-let fromTo = [];
-
 export default class State {
 	constructor(p5, x, y, d, name, index, stateType) {
 		this.p5 = p5;
@@ -31,6 +29,7 @@ export default class State {
 		this.name = name;
 		this.offsetX = 0;
 		this.offsetY = 0;
+		this.fromTo = [];
 	}
 
 	setP5(p5) {
@@ -227,7 +226,8 @@ export default class State {
 						d = this.p5.int(this.p5.dist(connectingState.x, connectingState.y, mouseX, mouseY));
 						if (d < connectingState.r) {
 							if (
-								fromTo.filter((value) => value.from === this.index && value.to === connectingState.index).length === 0
+								this.fromTo.filter((value) => value.from === this.index && value.to === connectingState.index)
+									.length === 0
 							) {
 								if (this.index === connectingState.index) {
 									this.transitions.push(
@@ -246,7 +246,7 @@ export default class State {
 										)
 									);
 								}
-								fromTo.push({ from: this.index, to: connectingState.index });
+								this.fromTo.push({ from: this.index, to: connectingState.index });
 								this.connected = true;
 							}
 							this.connecting = false;
