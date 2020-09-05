@@ -4,7 +4,7 @@ import { Navbar, Nav, Dropdown } from "react-bootstrap";
 class MenuBar extends React.Component {
   render() {
     return (
-      <Navbar bg="success" variant="dark" fixed="top">
+      <Navbar bg="primary" variant="dark" fixed="top">
         <Navbar.Brand style={{ color: "white" }}>FASIM</Navbar.Brand>
         <Navbar.Toggle
           style={{ color: "white" }}

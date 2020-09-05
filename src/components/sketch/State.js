@@ -1,10 +1,10 @@
-import Transition from "./Transition";
+import Transition, { LineType } from "./Transition";
 import globals from "../../globals";
 
 export const StateType = {
-  INITIAL: "INITIAL",
-  FINAL: "FINAL",
-  NORMAL: "NORMAL",
+  INITIAL: "Initial",
+  FINAL: "Final",
+  NORMAL: "",
 };
 
 const SELECT_COLOR = "#f18701";
@@ -130,6 +130,8 @@ export default class State {
     this.p5.fill(255);
     if (this.rollover || this.dragging) {
       this.p5.stroke(SELECT_COLOR);
+    } else if (globals.showSettings) {
+      this.p5.stroke(SUCCESS_COLOR);
     }
     if (this.stateType === StateType.NORMAL) {
       this.p5.circle(this.x, this.y, this.r * 2);
@@ -143,6 +145,8 @@ export default class State {
       // Custom arrow for INITIAL State
       if (this.rollover || this.dragging) {
         this.drawArrow(base, vec, SELECT_COLOR, false, false);
+      } else if (globals.showSettings) {
+        this.drawArrow(base, vec, SUCCESS_COLOR, false, false);
       } else {
         this.drawArrow(base, vec, 0, false, false);
       }
@@ -151,9 +155,13 @@ export default class State {
     this.p5.textSize(this.r * 0.7);
     this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
     this.p5.noStroke();
-    this.rollover || this.dragging
-      ? this.p5.fill(SELECT_COLOR)
-      : this.p5.fill(0);
+    if (this.rollover || this.dragging) {
+      this.p5.fill(SELECT_COLOR);
+    } else if (globals.showSettings) {
+      this.p5.fill(SUCCESS_COLOR);
+    } else {
+      this.p5.fill(0);
+    }
     this.p5.text(this.name, this.x, this.y);
   }
 
@@ -239,20 +247,24 @@ export default class State {
                   this.transitions.push(
                     new Transition(
                       this.p5,
+                      this.transitions.length,
                       this,
                       this,
                       CONNECTION_COLOR,
                       this.transitions.length,
+                      LineType.CURVE,
                     ),
                   );
                 } else {
                   this.transitions.push(
                     new Transition(
                       this.p5,
+                      this.transitions.length,
                       this,
                       connectingState,
                       CONNECTION_COLOR,
                       this.transitions.length,
+                      LineType.CURVE,
                     ),
                   );
                 }

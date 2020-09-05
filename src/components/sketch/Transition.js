@@ -1,14 +1,21 @@
 const STATE_RADIUS = 25;
 const ARROW_SIZE = 10;
 
+export const LineType = {
+  CURVE: "Curve",
+  LINE: "Line",
+};
+
 export default class Transition {
-  constructor(p5, from, to, color, value) {
+  constructor(p5, index, from, to, color, value, lineType) {
+    this.index = index;
     this.p5 = p5;
     this.from = from;
     this.to = to;
     this.color = color;
     this.controlPoints = [];
     this.value = value;
+    this.lineType = lineType;
   }
 
   getControlPoints(start, end) {
@@ -160,7 +167,9 @@ export default class Transition {
     if (this.from.index === this.to.index) {
       this.drawSelfLoop();
     } else {
+      // if (this.lineType === LineType.CURVE) {
       this.drawBezierWithArrow();
+      // }
     }
   }
 }

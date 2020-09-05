@@ -1,8 +1,18 @@
 import React from "react";
-import { Container, Modal, Button } from "react-bootstrap";
+import {
+  Container,
+  Modal,
+  Button,
+  Row,
+  Col,
+  DropdownButton,
+  Dropdown,
+  FormControl,
+} from "react-bootstrap";
 import p5 from "p5";
 import globals from "../../globals";
 import State from "./State";
+import { LineType } from "./Transition";
 
 const LETTERS = (() => {
   const caps = [...Array(26)].map((val, i) => String.fromCharCode(i + 65));
@@ -26,6 +36,7 @@ class Sketch extends React.Component {
     this.mouseReleased = this.mouseReleased.bind(this);
     this.doubleClicked = this.doubleClicked.bind(this);
     this.toggleSettings = this.toggleSettings.bind(this);
+    this.changeLineType = this.changeLineType.bind(this);
   }
 
   newSketch() {
@@ -109,28 +120,141 @@ class Sketch extends React.Component {
     globals.showSettings = false;
   }
 
+  changeLineType(value, i) {
+    if (value === LineType.CURVE) {
+      globals.selectedState.transitions[i].lineType = LineType.CURVE;
+    } else {
+      globals.selectedState.transitions[i].lineType = LineType.LINE;
+    }
+    this.setState({});
+  }
+
   render() {
-    return <div>
-      <Container id="sketch-holder" />
-      {this.state.showSettingsModal
-        ? <Modal.Dialog style={{ zIndex: 9999 }}>
-          <Modal.Header>
-            <Modal.Title>State {globals.selectedState.name}</Modal.Title>
-          </Modal.Header>
+    let modalTitle = "";
+    if (this.state.showSettingsModal) {
+      modalTitle = globals.selectedState.stateType +
+        " State " +
+        globals.selectedState.name;
+    }
+    return (
+      <div>
+        <Container id="sketch-holder" />
+        {this.state.showSettingsModal
+          ? (
+            <Modal.Dialog style={{ zIndex: 9999 }}>
+              <Modal.Header>
+                <Modal.Title>{modalTitle}</Modal.Title>
+              </Modal.Header>
 
-          <Modal.Body>
-            <p>Show Settings for State {globals.selectedState.name}</p>
-          </Modal.Body>
+              <Modal.Body>
+                <Container fluid>
+                  {globals.selectedState.transitions.length
+                    ? <>
+                      <Row>
+                        <h5 className="pb-2">Transitions</h5>
+                      </Row>
+                      <Row>
+                        <Col
+                          className="text-left"
+                        >
+                          <h6>Description</h6>
+                        </Col>
+                        <Col
+                          className="text-left"
+                        >
+                          <h6>Value</h6>
+                        </Col>
+                        <Col
+                          className="text-left"
+                        >
+                          <h6>Line Type</h6>
+                        </Col>
+                      </Row>
+                      {globals.selectedState.transitions.map((t) => {
+                        return <Row
+                          className="mb-3"
+                          key={t.index}
+                        >
+                          <Col
+                            className="text-left my-auto"
+                          >
+                            <h6 className="my-auto">
+                              {t.from.name + " to " + t.to.name}
+                            </h6>
+                          </Col>
+                          <Col
+                            className="text-left"
+                          >
+                            <Row>
+                              <Col lg="8">
+                                <FormControl
+                                  value={t.value}
+                                  placeholder="Value"
+                                  aria-label="Value"
+                                  aria-describedby="transition-value"
+                                />
+                              </Col>
+                              <Col lg="4">
+                                <Button>ε</Button>
+                              </Col>
+                            </Row>
+                          </Col>
+                          {t.from.index === t.to.index ? <Col></Col> : <Col
+                            className="text-left"
+                          >
+                            <DropdownButton
+                              variant="dark"
+                              id="line-type-dropdown"
+                              title={t.lineType}
+                            >
+                              <Dropdown.Item as="button">
+                                <div
+                                  onClick={(e) => {
+                                    this.changeLineType(
+                                      e.target.textContent,
+                                      t.index,
+                                    );
+                                  }}
+                                >
+                                  Curve
+                                </div>
+                              </Dropdown.Item>
+                              <Dropdown.Item as="button">
+                                <div
+                                  onClick={(e) => {
+                                    this.changeLineType(
+                                      e.target.textContent,
+                                      t.index,
+                                    );
+                                  }}
+                                >
+                                  Line
+                                </div>
+                              </Dropdown.Item>
+                            </DropdownButton>
+                          </Col>}
+                        </Row>;
+                      })}
+                    </>
+                    : <Row>
+                      <p>
+                        No settings available. Please create transitions.
+                      </p>
+                    </Row>}
+                </Container>
+              </Modal.Body>
 
-          <Modal.Footer>
-            <Button variant="danger" onClick={this.toggleSettings}>
-              Close
-            </Button>
-            <Button variant="success">Save changes</Button>
-          </Modal.Footer>
-        </Modal.Dialog>
-        : null}
-    </div>;
+              <Modal.Footer>
+                <Button variant="danger" onClick={this.toggleSettings}>
+                  Close
+                </Button>
+                <Button variant="success">Save changes</Button>
+              </Modal.Footer>
+            </Modal.Dialog>
+          )
+          : null}
+      </div>
+    );
   }
 }
 
