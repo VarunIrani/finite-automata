@@ -1,11 +1,20 @@
 import React from "react";
-import { Navbar, Nav, Dropdown } from "react-bootstrap";
+import { Navbar, Nav, Dropdown, Image, Row, Col } from "react-bootstrap";
+import fasimLogo from "../../assets/fasim.png";
 
 class MenuBar extends React.Component {
   render() {
     return (
       <Navbar bg="primary" variant="dark" fixed="top">
-        <Navbar.Brand style={{ color: "white" }}>FASIM</Navbar.Brand>
+        <Navbar.Brand style={{ color: "white" }}>
+          <Row>
+            <Col lg="4">
+              <Image style={{ width: "2em" }} src={fasimLogo}>
+              </Image>
+            </Col>
+            <Col lg="8" className="text-left my-auto">FASIM</Col>
+          </Row>
+        </Navbar.Brand>
         <Navbar.Toggle
           style={{ color: "white" }}
           aria-controls="basic-navbar-nav"

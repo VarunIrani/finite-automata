@@ -4,18 +4,20 @@ const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const isDev = require('electron-is-dev');
+const { nativeImage } = require('electron');
 
 let mainWindow;
 
 function createWindow() {
+	const image = nativeImage.createFromPath(path.join(__dirname, 'logo512.png'));
+	app.dock.setIcon(image);
 	mainWindow = new BrowserWindow({
+		title: 'FASIM - Finite Automata Simulator',
+		icon: nativeImage.createFromPath(path.join(__dirname, 'favicon.ico')),
 		width: 1280,
-		height: 720,
-		webPreferences: {
-			preload: path.join(__dirname, 'preload.js')
-		}
+		height: 720
 	});
-	mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+	mainWindow.loadURL(isDev ? 'http://localhost:3000/' : `file://${path.join(__dirname, '../build/index.html')}`);
 	mainWindow.on('closed', () => (mainWindow = null));
 }
 
