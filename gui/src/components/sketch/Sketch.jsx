@@ -117,21 +117,17 @@ class Sketch extends React.Component {
   deleteState(i) {
     let tempStates = this.state.states;
     let toBeRemoved = tempStates.filter((e) => e.index === i)[0];
-    let transitionIndices = [];
     let otherStates = tempStates.filter((e) => e.index !== i);
     otherStates.forEach(
       (other) => {
-        for (let i = 0; i < other.fromTo.length; i++) {
-          if (other.fromTo[i].to === toBeRemoved.index) {
-            transitionIndices.push({ state: other, index: i });
+        for (let i = 0; i < other.transitions.length; i++) {
+          if (other.transitions[i].to.index === toBeRemoved.index) {
+            other.transitions.splice(i, 1);
             break;
           }
         }
       },
     );
-    transitionIndices.forEach((ti) => {
-      this.settings.deleteTransition(ti.state, ti.index);
-    });
     for (let i = toBeRemoved.index; i < otherStates.length; i++) {
       otherStates[i].index -= 1;
     }

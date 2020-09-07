@@ -43,8 +43,6 @@ export default class SettingsModal extends Component {
     let toBeRemoved = state.transitions.filter((e) => e.index === i);
     let index = state.transitions.indexOf(toBeRemoved[0]);
     state.transitions.splice(index, 1);
-    state.fromTo.splice(index, 1);
-
     this.setState({});
   }
 
@@ -101,17 +99,15 @@ export default class SettingsModal extends Component {
                         <Col className="text-left">
                           <Row>
                             <Col>
-                              <Form>
-                                <Form.Control
-                                  defaultValue={t.value}
-                                  placeholder="Value"
-                                  aria-label="Value"
-                                  aria-describedby="transition-value"
-                                  onChange={(e) => {
-                                    this.changeValue(e.target.value, t.index);
-                                  }}
-                                />
-                              </Form>
+                              <Form.Control
+                                defaultValue={t.value}
+                                placeholder="Value"
+                                aria-label="Value"
+                                aria-describedby="transition-value"
+                                onChange={(e) => {
+                                  this.changeValue(e.target.value, t.index);
+                                }}
+                              />
                             </Col>
                           </Row>
                         </Col>
@@ -175,7 +171,7 @@ export default class SettingsModal extends Component {
                                   <Button
                                     variant="danger"
                                     onClick={() => {
-                                      this.deleteTransition(t.index);
+                                      this.deleteTransition(globals.selectedState, t.index);
                                     }}
                                   >
                                     <FontAwesomeIcon icon={faTrash} />

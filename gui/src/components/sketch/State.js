@@ -29,7 +29,6 @@ export default class State {
     this.name = name;
     this.offsetX = 0;
     this.offsetY = 0;
-    this.fromTo = [];
   }
 
   setP5(p5) {
@@ -237,9 +236,9 @@ export default class State {
             );
             if (d < connectingState.r) {
               if (
-                this.fromTo.filter((value) =>
-                  value.from === this.index &&
-                  value.to === connectingState.index
+                this.transitions.filter((value) =>
+                  value.from.index === this.index &&
+                  value.to.index === connectingState.index
                 )
                   .length === 0
               ) {
@@ -251,7 +250,7 @@ export default class State {
                       this,
                       this,
                       CONNECTION_COLOR,
-                      "",
+                      "ε",
                       LineType.LINE,
                     ),
                   );
@@ -263,14 +262,11 @@ export default class State {
                       this,
                       connectingState,
                       CONNECTION_COLOR,
-                      "",
+                      "ε",
                       LineType.LINE,
                     ),
                   );
                 }
-                this.fromTo.push(
-                  { from: this.index, to: connectingState.index },
-                );
                 this.connected = true;
               }
               this.connecting = false;
