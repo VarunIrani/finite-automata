@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 137 137">
+	<g id="Final_State" data-name="Final State" transform="translate(-780 -263)">
+		<g id="Ellipse_3" data-name="Ellipse 3" transform="translate(780 263)" fill="none" stroke="#000" stroke-width="3">
+			<circle cx="68.5" cy="68.5" r="68.5" stroke="none" />
+			<circle cx="68.5" cy="68.5" r="67" fill="none" />
+		</g>
+		<text id="S" transform="translate(832 350)" font-size="50" font-family="Arial">
+			<tspan x="0" y="0">S</tspan>
+		</text>
+		<g id="Ellipse_4" data-name="Ellipse 4" transform="translate(790 273)" fill="none" stroke="#000" stroke-width="3">
+			<circle cx="58.5" cy="58.5" r="58.5" stroke="none" />
+			<circle cx="58.5" cy="58.5" r="57" fill="none" />
+		</g>
+	</g>
+</svg>

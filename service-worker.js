@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/finite-automata/precache-manifest.ee90ddde8993e7518417741605729ac0.js"
+  "/finite-automata/precache-manifest.5ad76016a64702b5f74046639656b57b.js"
 );
 
 self.addEventListener('message', (event) => {
