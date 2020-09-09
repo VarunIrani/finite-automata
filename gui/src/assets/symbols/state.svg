@@ -1,9 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 137 137">
-  <g id="State" transform="translate(-397 -263)">
-    <g id="Ellipse_1" data-name="Ellipse 1" transform="translate(397 263)" fill="none" stroke="#000" stroke-width="3">
-      <circle cx="68.5" cy="68.5" r="68.5" stroke="none"/>
-      <circle cx="68.5" cy="68.5" r="67" fill="none"/>
-    </g>
-    <text id="S" transform="translate(449 350)" font-size="50" font-family="HelveticaNeue, Helvetica Neue"><tspan x="0" y="0">S</tspan></text>
-  </g>
+	<g id="State" transform="translate(-397 -263)">
+		<g id="Ellipse_1" data-name="Ellipse 1" transform="translate(397 263)" fill="none" stroke="#000" stroke-width="3">
+			<circle cx="68.5" cy="68.5" r="68.5" stroke="none" />
+			<circle cx="68.5" cy="68.5" r="67" fill="none" />
+		</g>
+		<text id="S" transform="translate(449 350)" font-size="50" font-family="Arial">
+			<tspan x="0" y="0">S</tspan>
+		</text>
+	</g>
 </svg>
