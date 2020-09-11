@@ -31,7 +31,7 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
 		autoHideMenuBar: true,
 		title: 'FASIM - Finite Automata Simulator',
-		icon: nativeImage.createFromPath(path.join(__dirname, 'favicon.ico')),
+		icon: image,
 		width: 1280,
 		height: 720
 	});
