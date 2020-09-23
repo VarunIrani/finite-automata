@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import { Modal, Button, Row, Col, DropdownButton, Dropdown, Form, Container } from 'react-bootstrap';
 import globals from '../../globals';
-import { LineType } from './Transition';
+import { LineType, StateType } from '../../enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { StateType } from './State';
 
 export default class SettingsModal extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			stateName: globals.selectedState.name
 		};
 		this.changeLineType = this.changeLineType.bind(this);
 		this.changeStateType = this.changeStateType.bind(this);
-
 		this.changeValue = this.changeValue.bind(this);
 		this.changeStateName = this.changeStateName.bind(this);
 		this.deleteTransition = this.deleteTransition.bind(this);
@@ -46,7 +44,7 @@ export default class SettingsModal extends Component {
 	}
 
 	changeStateName(value) {
-		if (value.length > 0 && value.length <= 2) {
+		if (value.length > 0 && value.length <= 3) {
 			globals.selectedState.name = value;
 			this.setState({});
 		}
@@ -74,7 +72,7 @@ export default class SettingsModal extends Component {
 						<Row>
 							<Col className="text-left">
 								<Modal.Title>
-									{globals.selectedState.stateType} {this.props.title} {globals.selectedState.name}
+									{stateType} {this.props.title} {globals.selectedState.name}
 								</Modal.Title>
 							</Col>
 							<Col className="text-right">
@@ -121,7 +119,7 @@ export default class SettingsModal extends Component {
 								<DropdownButton variant="dark" id="state-type-dropdown" title={stateType}>
 									<Dropdown.Item as="button">
 										<div
-											onClick={(e) => {
+											onClick={() => {
 												this.changeStateType(StateType.INITIAL);
 											}}
 										>
@@ -130,7 +128,7 @@ export default class SettingsModal extends Component {
 									</Dropdown.Item>
 									<Dropdown.Item as="button">
 										<div
-											onClick={(e) => {
+											onClick={() => {
 												this.changeStateType(StateType.NORMAL);
 											}}
 										>
@@ -139,7 +137,7 @@ export default class SettingsModal extends Component {
 									</Dropdown.Item>
 									<Dropdown.Item as="button">
 										<div
-											onClick={(e) => {
+											onClick={() => {
 												this.changeStateType(StateType.FINAL);
 											}}
 										>
@@ -210,7 +208,7 @@ export default class SettingsModal extends Component {
 															<DropdownButton variant="dark" id="line-type-dropdown" title={t.lineType}>
 																<Dropdown.Item as="button">
 																	<div
-																		onClick={(e) => {
+																		onClick={() => {
 																			this.changeLineType(LineType.CURVE, t.index);
 																		}}
 																	>
@@ -219,7 +217,7 @@ export default class SettingsModal extends Component {
 																</Dropdown.Item>
 																<Dropdown.Item as="button">
 																	<div
-																		onClick={(e) => {
+																		onClick={() => {
 																			this.changeLineType(LineType.LINE, t.index);
 																		}}
 																	>
@@ -259,7 +257,7 @@ export default class SettingsModal extends Component {
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="success" onClick={this.props.toggleSettings}>
-						Save
+						Done
 					</Button>
 				</Modal.Footer>
 			</Modal.Dialog>

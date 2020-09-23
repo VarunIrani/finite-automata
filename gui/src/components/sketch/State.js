@@ -1,11 +1,6 @@
-import Transition, { LineType } from "./Transition";
+import Transition from "./Transition";
+import {LineType, StateType} from "../../enums";
 import globals from "../../globals";
-
-export const StateType = {
-  INITIAL: "Initial",
-  FINAL: "Final",
-  NORMAL: "",
-};
 
 const SELECT_COLOR = "#f18701";
 const CONNECTION_COLOR = "#454ade";

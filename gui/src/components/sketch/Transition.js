@@ -1,10 +1,6 @@
+import {LineType} from "../../enums";
 const STATE_RADIUS = 25;
 const ARROW_SIZE = 10;
-
-export const LineType = {
-	CURVE: 'Curve',
-	LINE: 'Line'
-};
 
 export default class Transition {
 	constructor(p5, index, from, to, color, value, lineType) {
