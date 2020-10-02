@@ -1,4 +1,5 @@
-package com.sdlproject.FiniteAutometaSimulation;
+package com.sdlproject.finiteautometasimulation;
+
 import com.sdlproject.FiniteAutometaSimulation.bodies.EndClass;
 import com.sdlproject.FiniteAutometaSimulation.bodies.EntryClass;
 import com.sdlproject.FiniteAutometaSimulation.machine.DFA;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 
 @RestController
 public class FiniteRESTController {

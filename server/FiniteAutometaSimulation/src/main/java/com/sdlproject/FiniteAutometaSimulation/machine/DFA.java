@@ -6,8 +6,6 @@ import com.sdlproject.FiniteAutometaSimulation.states.*;
 import com.sdlproject.FiniteAutometaSimulation.supportclasses.Alphabet;
 import com.sdlproject.FiniteAutometaSimulation.supportclasses.StringChecker;
 import com.sdlproject.FiniteAutometaSimulation.supportclasses.Transitions;
-import reactor.util.function.Tuple2;
-
 import java.util.*;
 
 public class DFA implements FiniteAutomata {

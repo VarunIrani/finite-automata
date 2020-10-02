@@ -1,4 +1,4 @@
-package com.sdlproject.FiniteAutometaSimulation;
+package com.sdlproject.finiteautometasimulation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

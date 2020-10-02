@@ -1,4 +1,4 @@
-package com.sdlproject.FiniteAutometaSimulation;
+package com.sdlproject.finiteautometasimulation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

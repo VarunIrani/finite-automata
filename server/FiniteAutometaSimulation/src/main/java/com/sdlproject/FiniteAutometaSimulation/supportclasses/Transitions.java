@@ -1,8 +1,6 @@
 package com.sdlproject.FiniteAutometaSimulation.supportclasses;
-import reactor.util.function.Tuple2;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeMap;
 public class Transitions {
     public ArrayList<TreeMap<String, String>> transition;
