@@ -3,7 +3,7 @@ import React from 'react';
 import { ReactComponent as StateSymbol } from '../../assets/symbols/state.svg';
 import { ReactComponent as InitState } from '../../assets/symbols/init_state.svg';
 import { ReactComponent as FinalState } from '../../assets/symbols/final_state.svg';
-import { StateType } from '../sketch/State';
+import { StateType } from '../../enums';
 
 export default class ToolBar extends React.Component {
 	render() {
