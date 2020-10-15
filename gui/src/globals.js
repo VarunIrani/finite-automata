@@ -1,5 +1,6 @@
 let globals = {
   showSettings: false,
+  showSimulation: false,
   selectedState: null,
 };
 

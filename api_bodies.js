@@ -20,21 +20,21 @@ const dfa_front_end_body = {
   machine_name: "Varun's DFA",
   machine_type: MachineTypes.DFA,
   alphabet_count: 2,
-  alphabets: [0, 1],
+  alphabets: ["0", "1"],
   state_count: 3,
   test_strings: ["0010", "01", "000"],
   states: [{
     name: "A",
     type: StateType.INITIAL,
-    transitions: [{ 0: "B" }, { 1: "C" }],
+    transitions: [{ "0": "B" }, { "1": "C" }],
   }, {
     name: "B",
     type: StateType.TRANSITIONAL,
-    transitions: [{ 0: "B" }, { 1: "C" }],
+    transitions: [{ "0": "B" }, { "1": "C" }],
   }, {
     name: "C",
     type: StateType.FINAL,
-    transitions: [{ 0: "C" }, { 1: "C" }],
+    transitions: [{ "0": "C" }, { "1": "C" }],
   }],
 };
 

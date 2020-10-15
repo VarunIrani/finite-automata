@@ -172,7 +172,7 @@ export default class State {
   }
 
   pressed(states) {
-    if (!globals.showSettings) {
+    if (!globals.showSettings && !globals.showSimulation) {
       if (this.p5.mouseButton === this.p5.RIGHT) {
         const mouseX = this.p5.mouseX;
         const mouseY = this.p5.mouseY;
