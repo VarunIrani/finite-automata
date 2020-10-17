@@ -22,7 +22,7 @@ class Sketch extends React.Component {
 			showSettingsModal: false,
 			deletedCount: 0,
 			hideSimulation: true,
-			machineType: null
+			machineType: null,
 		}
 		this.newSketch = this.newSketch.bind(this);
 		this.addState = this.addState.bind(this);
@@ -33,7 +33,7 @@ class Sketch extends React.Component {
 		this.doubleClicked = this.doubleClicked.bind(this);
 		this.toggleSettings = this.toggleSettings.bind(this);
 		this.toggleSimulation = this.toggleSimulation.bind(this);
-
+		this.setSimulationData = this.setSimulationData.bind(this);
 		this.deleteState = this.deleteState.bind(this);
 	}
 
@@ -146,6 +146,10 @@ class Sketch extends React.Component {
 		globals.showSimulation = this.state.hideSimulation
 	}
 
+	setSimulationData(data) {
+		this.props.setSimulationData(data);
+	}
+
 	render() {
 		let modalTitle = '';
 		if (this.state.showSettingsModal) {
@@ -165,7 +169,9 @@ class Sketch extends React.Component {
 					<SimulationModal machineType={this.state.machineType}
 													 states={this.state.states}
 													 show={this.state.hideSimulation}
-													 toggleSimulation={(machineType) => this.toggleSimulation(machineType)}/>
+													 toggleSimulation={(machineType) => this.toggleSimulation(machineType)}
+													 setSimulationData={(data) => this.setSimulationData(data)}
+					/>
 			</div>
 		);
 	}

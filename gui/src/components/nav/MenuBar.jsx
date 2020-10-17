@@ -6,7 +6,7 @@ import {MachineType} from "../../enums";
 class MenuBar extends React.Component {
   render() {
     return (
-      <Navbar bg="primary" variant="dark" fixed="top">
+      <Navbar bg="dark" variant="dark" fixed="top">
         <Navbar.Brand style={{color: 'white'}}>
           <Row>
             <Col lg="4">

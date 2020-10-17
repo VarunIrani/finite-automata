@@ -3,14 +3,25 @@ import MenuBar from './components/nav/MenuBar';
 import Sketch from './components/sketch/Sketch';
 import {Container, Row, Col} from 'react-bootstrap';
 import ToolBar from './components/tools/ToolBar';
+import SimulationPlayer from "./components/tools/SimulationPlayer";
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      simulationData: null
+    }
+  }
+
   render() {
     return (
       <div>
         <Sketch
           ref={(node) => {
             this.sketch = node;
+          }}
+          setSimulationData={(simulationData) => {
+            this.setState({simulationData})
           }}
         />
         <Container fluid style={{padding: 0}}>
@@ -35,6 +46,13 @@ class App extends React.Component {
                   this.sketch.addState(stateType);
                 }}
               />
+            </Col>
+          </Row>
+        </Container>
+        <Container fluid>
+          <Row>
+            <Col sm="3" style={{zIndex: 999, position: 'absolute', top: 80, right: 20}}>
+              <SimulationPlayer simulationData={this.state.simulationData}/>
             </Col>
           </Row>
         </Container>

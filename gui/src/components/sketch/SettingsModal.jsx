@@ -32,7 +32,7 @@ export default class SettingsModal extends Component {
 		if (value.length === 0) {
 			globals.selectedState.transitions[i].value = 'ε';
 		} else {
-			globals.selectedState.transitions[i].value = value;
+			globals.selectedState.transitions[i].value = value.toString();
 		}
 	}
 
