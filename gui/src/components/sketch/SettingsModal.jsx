@@ -62,6 +62,9 @@ export default class SettingsModal extends Component {
 			case StateType.FINAL:
 				stateType = 'Final';
 				break;
+			case StateType.INITIAL_FINAL:
+				stateType = 'Initial Final';
+				break;
 			default:
 				break;
 		}
@@ -142,6 +145,15 @@ export default class SettingsModal extends Component {
 											}}
 										>
 											Final
+										</div>
+									</Dropdown.Item>
+									<Dropdown.Item as="button">
+										<div
+											onClick={() => {
+												this.changeStateType(StateType.INITIAL_FINAL);
+											}}
+										>
+											Initial Final
 										</div>
 									</Dropdown.Item>
 								</DropdownButton>

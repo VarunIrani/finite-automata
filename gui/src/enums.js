@@ -17,5 +17,6 @@ export const StateType = {
   INITIAL: 0,
   NORMAL: 1,
   FINAL: 2,
-  DEAD: 3,
+  INITIAL_FINAL: 3,
+  DEAD: 4,
 };

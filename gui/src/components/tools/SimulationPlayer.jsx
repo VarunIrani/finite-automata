@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Row, Container, Button, Col} from "react-bootstrap";
+import {Card, Row, Container, Button} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
 
@@ -7,7 +7,7 @@ class SimulationPlayer extends Component {
   render() {
     const simData = this.props.simulationData;
     return (
-      <Card bg='white' text='dark'>
+      <Card bg='white' text='dark' hidden={simData === null}>
         <Card.Header style={{backgroundColor: 'white'}}>
           <h5 className='my-auto'>Simulate Test Cases</h5>
         </Card.Header>
@@ -21,7 +21,9 @@ class SimulationPlayer extends Component {
                                                               className='justify-content-between align-items-center mb-3 px-3'>
                 <p className='p-0 m-0 my-auto' style={{fontSize: 18}}><b>Test </b>{test}</p>
                 <Button
-                  variant="success">
+                  variant="success" onClick={() => {
+                    this.props.setTestCase(index)
+                }}>
                   <FontAwesomeIcon icon={faPlay}/>
                 </Button>
               </Row>)}

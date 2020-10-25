@@ -8,7 +8,7 @@ const CONNECTING_COLOR = "#f18701";
 const SUCCESS_COLOR = "#00916e";
 
 export default class State {
-  constructor(p5, x, y, d, name, index, stateType) {
+  constructor(p5, x, y, d, name, index, stateType, color) {
     this.p5 = p5;
     this.index = index;
     this.stateType = stateType;
@@ -24,6 +24,7 @@ export default class State {
     this.name = name;
     this.offsetX = 0;
     this.offsetY = 0;
+    this.color = color;
   }
 
   setP5(p5) {
@@ -35,11 +36,7 @@ export default class State {
     const mouseY = this.p5.mouseY;
     const d = this.p5.int(this.p5.dist(this.x, this.y, mouseX, mouseY));
     // Is mouse over the object
-    if (d < this.r) {
-      this.rollover = true;
-    } else {
-      this.rollover = false;
-    }
+    this.rollover = d < this.r;
   }
 
   doubleClicked() {
@@ -119,13 +116,15 @@ export default class State {
   show() {
     this.p5.strokeWeight(2);
     // Different fill based on state
-    this.p5.stroke(0);
-    this.p5.fill(255);
+    this.p5.fill(this.color);
     if (this.rollover || this.dragging) {
       this.p5.stroke(SELECT_COLOR);
-    } else if (globals.showSettings) {
+    } else if (globals.showSettings || globals.showSimulation) {
       this.p5.stroke(SUCCESS_COLOR);
+    } else {
+      this.p5.stroke(0);
     }
+
     if (this.stateType === StateType.NORMAL) {
       this.p5.circle(this.x, this.y, this.r * 2);
     } else if (this.stateType === StateType.FINAL) {
@@ -138,7 +137,7 @@ export default class State {
       // Custom arrow for INITIAL State
       if (this.rollover || this.dragging) {
         this.drawArrow(base, vec, SELECT_COLOR, false, false);
-      } else if (globals.showSettings) {
+      } else if (globals.showSettings || globals.showSimulation) {
         this.drawArrow(base, vec, SUCCESS_COLOR, false, false);
       } else {
         this.drawArrow(base, vec, 0, false, false);
@@ -150,7 +149,7 @@ export default class State {
     this.p5.noStroke();
     if (this.rollover || this.dragging) {
       this.p5.fill(SELECT_COLOR);
-    } else if (globals.showSettings) {
+    } else if (globals.showSettings || globals.showSimulation) {
       this.p5.fill(SUCCESS_COLOR);
     } else {
       this.p5.fill(0);
