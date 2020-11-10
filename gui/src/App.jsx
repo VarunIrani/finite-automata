@@ -53,8 +53,12 @@ class App extends React.Component {
           <Row>
             <Col sm="3" style={{zIndex: 999, position: 'absolute', top: 80, right: 20}}>
               <SimulationPlayer simulationData={this.state.simulationData} setTestCase={(index) => {
-                this.sketch.setTestCase(this.state.simulationData.transitions[index][index])
-              }} />
+                this.sketch.setTestCase({
+                  testString: this.state.simulationData.test_strings[index],
+                  testCaseNumber: index,
+                  testCase: this.state.simulationData.transitions[index][index]
+                })
+              }}/>
             </Col>
           </Row>
         </Container>

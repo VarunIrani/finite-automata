@@ -75,3 +75,17 @@ const nfa_front_end_body = {
     transitions: [{0: "$$"}, {1: "C"}],
   }],
 };
+
+const nfa_result = {
+  machine_name: "Varun's NFA",
+  machine_type: 1,
+  alphabet_count: 2,
+  alphabets: [0, 1],
+  state_count: 3,
+  test_strings: ["0010", "01", "000"],
+  transitions: [
+    {0: {"0": "B,C", "0": "B", "1": "C", "0": "$$"}, result: "Rejected"},
+    {1: {"0": "B,C", "1": "C"}, result: "Accepted"},
+    {2: {"0": "B,C", "0": "B", "0": "B"}, result: "Rejected"},
+  ],
+};

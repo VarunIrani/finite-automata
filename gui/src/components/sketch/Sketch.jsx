@@ -12,7 +12,6 @@ const LETTERS = (() => {
   return caps.concat(caps.map((letter) => letter.toLowerCase()));
 })();
 
-// noinspection JSPotentiallyInvalidConstructorUsage
 class Sketch extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +23,8 @@ class Sketch extends React.Component {
       deletedCount: 0,
       hideSimulation: true,
       machineType: null,
+      testString: [],
+      currentIndex: -1
     }
     this.newSketch = this.newSketch.bind(this);
     this.addState = this.addState.bind(this);
@@ -74,6 +75,22 @@ class Sketch extends React.Component {
 
   draw = (p5) => {
     p5.background(255);
+    p5.push()
+    const l = 40 - this.state.testString.length
+    p5.textSize(l);
+    p5.translate(-l * 2, 0);
+    if (this.state.currentIndex === -1)
+      p5.fill("#000")
+    this.state.testString.forEach((char, i) => {
+      if (this.state.currentIndex !== -1) {
+        if (i === this.state.currentIndex)
+          p5.fill("#3575ff");
+        else
+          p5.fill("#000");
+      }
+      p5.text(char, p5.width / 3 + (i * 20), 100);
+    })
+    p5.pop()
     this.state.states.forEach((state) => {
       state.setP5(p5);
       state.connect();
@@ -152,7 +169,15 @@ class Sketch extends React.Component {
     this.props.setSimulationData(data);
   }
 
-  setTestCase(data) {
+  setTestCase(testCaseData) {
+    this.setState({currentIndex: -1})
+
+    const playButtons = document.querySelectorAll('#play-button')
+    playButtons.forEach(playButton => {
+      playButton.disabled = true
+    })
+
+    const time = 1000
     const initial = this.state.states.filter((s) => s.stateType === StateType.INITIAL)[0];
     const rest = this.state.states.filter((s) => s.stateType !== StateType.INITIAL);
     rest.forEach((r) => {
@@ -160,44 +185,68 @@ class Sketch extends React.Component {
     })
     initial.color = "#ff6868"
     const states = this.state.states
+    const data = testCaseData.testCase
+    const testCaseNumber = testCaseData.testCaseNumber
+    const resultText = document.querySelector(`#result-${testCaseNumber}`)
 
-    if (!data.transition.includes({"N": "N"})) {
+    this.setState({testString: [...testCaseData.testString]})
+    let d;
+
+    if (data.transition.map(t => t["N"]).indexOf("N") === -1)
+      d = data.transition.length;
+    else
+      d = data.transition.map(t => t["N"]).indexOf("N")
+
+    let lastTransition = data.transition[d - 1];
+    const lastState = states.filter((s) => s.name === Object.values(lastTransition)[0])[0];
+
+    if (data.transition.filter(t => Object.keys(t)[0] === "N").length < 1)
       data.transition.push({"N": "N"})
-    }
 
-    setTimeout(() => {
+    setTimeout(function () {
       data.transition.forEach((t, i) => {
-        const state = states.filter((s) => s.name === Object.values(t)[0])[0];
+        const state = states.filter((s) => s.name === Object.values(t)[0]);
         const rest = states.filter((s) => s.name !== Object.values(t)[0]);
-        if (Object.keys(t)[0] === "N") {
+        if (Object.keys(t).includes("N")) {
           clearColors(states, i)
         } else {
           setColor(state, rest, i);
         }
       })
-    }, 1000);
+    }, time);
 
     function clearColors(states, i) {
-      setTimeout(() => {
+      setTimeout(function () {
         states.forEach(s => {
           s.color = 255
         })
-        console.log("DONE")
-      }, 1000 * i);
+        if (lastState.stateType === StateType.FINAL) {
+          if (!resultText.classList.contains("text-success"))
+            resultText.classList.add("text-success")
+          resultText.innerHTML = "Accepted"
+        } else {
+          if (!resultText.classList.contains("text-danger"))
+            resultText.classList.add("text-danger")
+          resultText.innerHTML = "Rejected"
+        }
+      }, time * i);
     }
 
-    function setColor(state, rest, i) {
-      setTimeout(() => {
-        if (state.stateType === StateType.FINAL) {
-          state.color = "#01d6a4"
-        } else {
-          state.color = "#ff6868"
-        }
+    const setColor = function (state, rest, i) {
+      setTimeout(function () {
+        this.setState({currentIndex: i})
+        state.forEach(s => {
+          if (s.stateType === StateType.FINAL) {
+            s.color = "#01d6a4"
+          } else {
+            s.color = "#ff6868"
+          }
+        })
         rest.forEach((r) => {
           r.color = 255
         })
-      }, 1000 * i);
-    }
+      }.bind(this), time * i);
+    }.bind(this)
   }
 
   render() {
