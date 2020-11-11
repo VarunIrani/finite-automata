@@ -172,17 +172,13 @@ class Sketch extends React.Component {
   setTestCase(testCaseData) {
     this.setState({currentIndex: -1})
 
-    const playButtons = document.querySelectorAll('#play-button')
-    playButtons.forEach(playButton => {
-      playButton.disabled = true
-    })
-
     const time = 1000
     const initial = this.state.states.filter((s) => s.stateType === StateType.INITIAL)[0];
     const rest = this.state.states.filter((s) => s.stateType !== StateType.INITIAL);
     rest.forEach((r) => {
       r.color = 255
     })
+
     initial.color = "#ff6868"
     const states = this.state.states
     const data = testCaseData.testCase
@@ -198,15 +194,33 @@ class Sketch extends React.Component {
       d = data.transition.map(t => t["N"]).indexOf("N")
 
     let lastTransition = data.transition[d - 1];
-    const lastState = states.filter((s) => s.name === Object.values(lastTransition)[0])[0];
+    const lastState = states.filter((s) => {
+      let lastStates = Object.values(lastTransition)[0];
+      if (lastStates.includes(",")) {
+        const transitions = lastStates.split(",")
+        const lastStateName = transitions[transitions.length - 1]
+        return s.name === lastStateName;
+      } else {
+        return s.name === lastStates
+      }
+    })[0];
 
     if (data.transition.filter(t => Object.keys(t)[0] === "N").length < 1)
       data.transition.push({"N": "N"})
 
     setTimeout(function () {
       data.transition.forEach((t, i) => {
-        const state = states.filter((s) => s.name === Object.values(t)[0]);
-        const rest = states.filter((s) => s.name !== Object.values(t)[0]);
+        let state = [], rest;
+        if (Object.values(t)[0].includes(",")) {
+          const temp = Object.values(t)[0].split(",");
+          temp.forEach(tr => {
+            state.push(states.filter((s) => s.name === tr)[0]);
+          })
+          rest = states.filter((s) => !temp.includes(s.name))
+        } else {
+          state = states.filter((s) => s.name === Object.values(t)[0]);
+          rest = states.filter((s) => s.name !== Object.values(t)[0]);
+        }
         if (Object.keys(t).includes("N")) {
           clearColors(states, i)
         } else {
@@ -215,31 +229,16 @@ class Sketch extends React.Component {
       })
     }, time);
 
-    function clearColors(states, i) {
-      setTimeout(function () {
-        states.forEach(s => {
-          s.color = 255
-        })
-        if (lastState.stateType === StateType.FINAL) {
-          if (!resultText.classList.contains("text-success"))
-            resultText.classList.add("text-success")
-          resultText.innerHTML = "Accepted"
-        } else {
-          if (!resultText.classList.contains("text-danger"))
-            resultText.classList.add("text-danger")
-          resultText.innerHTML = "Rejected"
-        }
-      }, time * i);
-    }
-
     const setColor = function (state, rest, i) {
       setTimeout(function () {
         this.setState({currentIndex: i})
         state.forEach(s => {
-          if (s.stateType === StateType.FINAL) {
-            s.color = "#01d6a4"
-          } else {
-            s.color = "#ff6868"
+          if (s !== undefined) {
+            if (s.stateType === StateType.FINAL) {
+              s.color = "#01d6a4"
+            } else {
+              s.color = "#ff6868"
+            }
           }
         })
         rest.forEach((r) => {
@@ -247,6 +246,31 @@ class Sketch extends React.Component {
         })
       }.bind(this), time * i);
     }.bind(this)
+
+    function clearColors(states, i) {
+      setTimeout(function () {
+        states.forEach(s => {
+          if (s !== undefined)
+            s.color = 255
+        })
+        if (lastState === undefined) {
+          if (!resultText.classList.contains("text-danger"))
+            resultText.classList.add("text-danger")
+          resultText.innerHTML = "Rejected"
+        } else {
+          if (lastState.stateType === StateType.FINAL) {
+            if (!resultText.classList.contains("text-success"))
+              resultText.classList.add("text-success")
+            resultText.innerHTML = "Accepted"
+          } else {
+            if (!resultText.classList.contains("text-danger"))
+              resultText.classList.add("text-danger")
+            resultText.innerHTML = "Rejected"
+          }
+        }
+      }, time * i);
+    }
+
   }
 
   render() {
