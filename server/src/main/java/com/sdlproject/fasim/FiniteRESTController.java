@@ -2,10 +2,10 @@ package com.sdlproject.fasim;
 
 import com.sdlproject.FiniteAutometaSimulation.bodies.EndClass;
 import com.sdlproject.FiniteAutometaSimulation.bodies.EntryClass;
-import com.sdlproject.FiniteAutometaSimulation.machine.DFA;
-import com.sdlproject.FiniteAutometaSimulation.machine.FiniteAutomata;
-import com.sdlproject.FiniteAutometaSimulation.machine.NFA;
-import com.sdlproject.FiniteAutometaSimulation.machine.TypeOfFA;
+import com.sdlproject.FiniteAutometaSimulation.machinewithoutoutput.DFA;
+import com.sdlproject.FiniteAutometaSimulation.machinewithoutoutput.FiniteAutomata;
+import com.sdlproject.FiniteAutometaSimulation.machinewithoutoutput.NFA;
+import com.sdlproject.FiniteAutometaSimulation.machinewithoutoutput.TypeOfFA;
 import com.sdlproject.FiniteAutometaSimulation.supportclasses.Alphabet;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

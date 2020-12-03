@@ -1,6 +1,6 @@
 package com.sdlproject.FiniteAutometaSimulation.bodies;
 
-import com.sdlproject.FiniteAutometaSimulation.machine.TypeOfFA;
+import com.sdlproject.FiniteAutometaSimulation.machinewithoutoutput.TypeOfFA;
 import com.sdlproject.FiniteAutometaSimulation.supportclasses.Transitions;
 
 import java.util.ArrayList;

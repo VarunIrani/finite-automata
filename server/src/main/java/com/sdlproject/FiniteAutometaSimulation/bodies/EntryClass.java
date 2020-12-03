@@ -1,5 +1,5 @@
 package com.sdlproject.FiniteAutometaSimulation.bodies;
-import com.sdlproject.FiniteAutometaSimulation.machine.TypeOfFA;
+import com.sdlproject.FiniteAutometaSimulation.machinewithoutoutput.TypeOfFA;
 
 public class EntryClass {
     String machine_name;

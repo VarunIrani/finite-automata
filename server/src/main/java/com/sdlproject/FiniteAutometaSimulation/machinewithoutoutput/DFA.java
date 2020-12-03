@@ -1,4 +1,4 @@
-package com.sdlproject.FiniteAutometaSimulation.machine;
+package com.sdlproject.FiniteAutometaSimulation.machinewithoutoutput;
 
 import com.sdlproject.FiniteAutometaSimulation.bodies.EndClass;
 import com.sdlproject.FiniteAutometaSimulation.bodies.GivenState;

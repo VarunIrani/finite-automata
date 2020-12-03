@@ -1,6 +1,6 @@
 package com.sdlproject.FiniteAutometaSimulation.states;
 
-import com.sdlproject.FiniteAutometaSimulation.machine.TypeOfFA;
+import com.sdlproject.FiniteAutometaSimulation.machinewithoutoutput.TypeOfFA;
 import com.sdlproject.FiniteAutometaSimulation.supportclasses.Alphabet;
 
 import java.util.ArrayList;

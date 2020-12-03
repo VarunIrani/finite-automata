@@ -1,6 +1,7 @@
 package com.sdlproject.FiniteAutometaSimulation.states;
 
 public enum TypeOfState {
+    InitialFinal(-1),
     Initial(0),
     Transitional(1),
     Final(2),
