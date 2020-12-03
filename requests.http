@@ -1,0 +1,31 @@
+GET https://fasim.herokuapp.com/qr
+# Returns qr value
+{
+  qrString: "1607000171302"
+}
+
+# FASIM Auth App
+POST https://fasim.herokuapp.com/set-user
+{
+  name: "Rahul Sharma",
+  email: "rahul.sharma@gmail.com",
+  scannedQR: "1607000171302"
+}
+
+# FASIM React
+GET https://fasim.herokuapp.com/has-user?qr=1607000171302
+# Returns unsuccessful
+{
+  status: "NO",
+}
+
+# Returns successful
+{
+  status: "YES",
+  name: "Rahul Sharma",
+  email: "rahul.sharma@gmail.com",
+}
+
+
+
+
