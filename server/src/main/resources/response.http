@@ -9,7 +9,7 @@ POST https://fasim.herokuapp.com/set-user
 {
   name: "Rahul Sharma",
   email: "rahul.sharma@gmail.com",
-  scannedQR: "1607000171302"
+  token: "1607000171302"
 }
 
 # FASIM React
