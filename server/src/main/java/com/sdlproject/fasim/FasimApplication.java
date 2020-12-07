@@ -1,5 +1,7 @@
 package com.sdlproject.fasim;
 
+import com.sdlproject.fasim.database.respository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,10 @@ import java.util.Arrays;
 
 @SpringBootApplication
 public class FasimApplication {
+
+    @Autowired
+    public static UserRepository userRepository;
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

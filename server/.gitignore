@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+C:\Users\91988\IntelliJIDEAProjects\finite-automata\server\src\main\resources\application.properties
 
 ### STS ###
 .apt_generated

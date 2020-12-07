@@ -1,6 +1,7 @@
 package com.sdlproject.fasim;
-
-import com.sdlproject.FiniteAutometaSimulation.supportclasses.RandomString;
+import com.sdlproject.fasim.database.model.User;
+import com.sdlproject.fasim.database.respository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,8 +11,14 @@ import java.util.Date;
 @CrossOrigin(origins = "*")
 @RestController
 public class GetRandomString {
-    @GetMapping("/getstring")
+
+    @Autowired
+    public UserRepository userRepository;
+
+    @GetMapping("/qr")
     public String getRandomString() {
-        return RandomString.getAlphaNumericString() + "&:" + (new Date()).getTime();
+        String token = String.valueOf((new Date()).getTime());
+        userRepository.insert(new User(token, null, null));
+        return token;
     }
 }
