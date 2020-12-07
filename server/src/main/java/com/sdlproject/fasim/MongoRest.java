@@ -14,6 +14,8 @@ import java.util.List;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+
+@CrossOrigin(origins = "*")
 @RestController
 public class MongoRest {
     @Autowired
@@ -39,11 +41,6 @@ public class MongoRest {
     public RetUser hasUser(@Param("qr") String qr) {
         RetUser retUser = new RetUser();
         User user = mongoOperations.findOne(query(where("token").is(qr)), User.class, "Users");
-        if (user != null) {
-            System.out.println("User - " + user.user + " email - " + user.email);
-        } else {
-            System.out.println("Null");
-        }
         if(user == null || user.email == null || user.user == null) {
             retUser.setStatus("No");
             retUser.setName("");
