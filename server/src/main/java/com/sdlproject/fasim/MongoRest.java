@@ -1,4 +1,4 @@
-package com.sdlproject.fasim.database;
+package com.sdlproject.fasim;
 
 import com.sdlproject.fasim.database.model.RetUser;
 import com.sdlproject.fasim.database.model.User;
@@ -39,8 +39,12 @@ public class MongoRest {
     public RetUser hasUser(@Param("qr") String qr) {
         RetUser retUser = new RetUser();
         User user = mongoOperations.findOne(query(where("token").is(qr)), User.class, "Users");
-        System.out.println(user);
-        if(user == null) {
+        if (user != null) {
+            System.out.println("User - " + user.user + " email - " + user.email);
+        } else {
+            System.out.println("Null");
+        }
+        if(user == null || user.email == null || user.user == null) {
             retUser.setStatus("No");
             retUser.setName("");
             retUser.setEmail("");

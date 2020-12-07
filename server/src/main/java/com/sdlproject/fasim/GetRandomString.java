@@ -1,5 +1,4 @@
 package com.sdlproject.fasim;
-import com.sdlproject.fasim.database.MongoRest;
 import com.sdlproject.fasim.database.model.User;
 import com.sdlproject.fasim.database.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class GetRandomString {
     @GetMapping("/qr")
     public String getRandomString() {
         String token = String.valueOf((new Date()).getTime());
-        userRepository.insert(new User(token, "", ""));
+        userRepository.insert(new User(token, null, null));
         return token;
     }
 }
