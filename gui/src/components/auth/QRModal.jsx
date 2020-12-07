@@ -10,20 +10,32 @@ export default class QRModal extends Component {
 			qrCodeValue: ''
 		};
 		this.getQRImage = this.getQRImage.bind(this);
+		this.hasUserPing = this.hasUserPing.bind(this);
 	}
 
 	getQRImage() {
 		Axios({
 			method: 'GET',
-			url: 'https://fasim.herokuapp.com/getstring'
+			url: 'https://fasim.herokuapp.com/qr'
 		}).then((res) => {
-			this.setState({ qrCodeValue: res.data });
+			this.setState({ qrCodeValue: res.data.toString() });
+		});
+	}
+
+	hasUserPing() {
+		console.log(this.state.qrCodeValue);
+		Axios({
+			method: 'GET',
+			url: `https://fasim.herokuapp.com/has-user?qr=${this.state.qrCodeValue}`
+		}).then((res) => {
+			console.log(res.data);
 		});
 	}
 
 	componentDidMount() {
 		this.getQRImage();
-		setInterval(this.getQRImage, 5 * 1000);
+		setInterval(this.getQRImage, 20 * 1000);
+		setInterval(this.hasUserPing, 1 * 1000);
 	}
 
 	render() {
