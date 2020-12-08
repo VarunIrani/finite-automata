@@ -34,43 +34,6 @@ public class DFA implements FiniteAutomata {
         this.states.sort((state, t1) -> { return state.getType().getValue() - t1.getType().getValue(); });
     }
 
-//    public void createStates(Set<String> stateNames) {
-//        this.stateNames = stateNames;
-//        Scanner scan = new Scanner(System.in);
-//        ArrayList<State> states = new ArrayList<State>();
-//        boolean initisDone = false;
-//        for (String name : stateNames) {
-//            boolean continueIt;
-//            do {
-//                continueIt = false;
-//                if (!initisDone) {
-//                    System.out.print("'" + name + "' this state is which state - (Initial: 0, Transitional: 1, Final: 2) - ");
-//                } else {
-//                    System.out.print("'" + name + "' this state is which state - (Transitional: 1, Final: 2) - ");
-//                }
-//                int type = scan.nextInt();
-//                if (type == 0 && !initisDone) {
-//                    states.add(new InitialState(name, alphabet));
-//                    initisDone = true;
-//                } else if (type == 0 & initisDone) {
-//                    System.out.println("Sorry Only on initial State is permitted ");
-//                    continueIt = true;
-//                } else if (type == 1) {
-//                    states.add(new TransitionState(name, alphabet));
-//                } else if (type == 2) {
-//                    states.add(new FinalState(name, alphabet));
-//                } else {
-//                    System.out.println("Sorry this is not in List Please type again ");
-//                    continueIt = true;
-//                }
-//            } while (continueIt);
-//        }
-//        states.sort((state, t1) -> {
-//            return state.getType().getValue() - t1.getType().getValue();
-//        });
-//        this.states = states;
-//    }
-
     @Override
     public void defineStates() {
         states.forEach(e -> {
@@ -125,8 +88,8 @@ public class DFA implements FiniteAutomata {
                 transition.add(temp);
                 statePointer = this.giveMeStateFromName(statePointer.whichState(alpha));
             }
-
-            if (statePointer.getType().equals(TypeOfState.Final)) {
+            System.out.println(statePointer.getType().getValue());
+            if (statePointer.getType().equals(TypeOfState.Final) || statePointer.getType().equals(TypeOfState.InitialFinal)) {
                 transitions.setTransition(transition);
                 transitions.setResult("Accepted");
                 return transitions;

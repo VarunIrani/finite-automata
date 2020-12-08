@@ -16,7 +16,7 @@ public class WOpEndClass {
     public ArrayList<OutputSymbol> output_alpha;
     public int state_count;
     public ArrayList<String> test_strings;
-    public ArrayList<WOpTransitions> WOpTransitions;
+    public ArrayList<WOpTransitions> transitions;
 
     public String getMachine_name() {
         return machine_name;
@@ -83,14 +83,14 @@ public class WOpEndClass {
     }
 
     public ArrayList<WOpTransitions> getTransitions() {
-        return WOpTransitions;
+        return transitions;
     }
 
     public void setTransitions(ArrayList<WOpTransitions> WOpTransitions) {
-        this.WOpTransitions = WOpTransitions;
+        this.transitions = WOpTransitions;
     }
 
-    public WOpEndClass(String machine_name, FATypes machine_type, int input_alpha_count, ArrayList<InputSymbol> input_alpha, int output_alpha_count, ArrayList<OutputSymbol> output_alpha, int state_count, ArrayList<String> test_strings, ArrayList<WOpTransitions> WOpTransitions) {
+    public WOpEndClass(String machine_name, FATypes machine_type, int input_alpha_count, ArrayList<InputSymbol> input_alpha, int output_alpha_count, ArrayList<OutputSymbol> output_alpha, int state_count, ArrayList<String> test_strings, ArrayList<WOpTransitions> transitions) {
         this.machine_name = machine_name;
         this.machine_type = machine_type;
         this.input_alpha_count = input_alpha_count;
@@ -99,7 +99,7 @@ public class WOpEndClass {
         this.output_alpha = output_alpha;
         this.state_count = state_count;
         this.test_strings = test_strings;
-        this.WOpTransitions = WOpTransitions;
+        this.transitions = transitions;
     }
 
     public WOpEndClass() {

@@ -64,7 +64,7 @@ public class NFA implements FiniteAutomata {
 
     public NFACollections selectStateAtRandom(String test, State statePointer, int pos, int opt, NFACollections transitions) {
         if (pos >= test.length()) {
-            transitions.setTest(statePointer.getType().equals(TypeOfState.Final));
+            transitions.setTest(statePointer.getType().equals(TypeOfState.Final) || statePointer.getType().equals(TypeOfState.InitialFinal));
             return transitions;
         }
 
