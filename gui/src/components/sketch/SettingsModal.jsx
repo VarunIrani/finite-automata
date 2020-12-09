@@ -205,7 +205,10 @@ export default class SettingsModal extends Component {
 															<Button
 																variant="danger"
 																onClick={() => {
-																	this.deleteTransition(globals.selectedState, t.index);
+																	this.deleteTransition(
+																		globals.selectedState,
+																		t.index
+																	);
 																}}
 															>
 																<FontAwesomeIcon icon={faTrash} />
@@ -217,11 +220,18 @@ export default class SettingsModal extends Component {
 												<Col className="text-left">
 													<Row>
 														<Col lg="6">
-															<DropdownButton variant="dark" id="line-type-dropdown" title={t.lineType}>
+															<DropdownButton
+																variant="dark"
+																id="line-type-dropdown"
+																title={t.lineType}
+															>
 																<Dropdown.Item as="button">
 																	<div
 																		onClick={() => {
-																			this.changeLineType(LineType.CURVE, t.index);
+																			this.changeLineType(
+																				LineType.CURVE,
+																				t.index
+																			);
 																		}}
 																	>
 																		Curve
@@ -242,7 +252,10 @@ export default class SettingsModal extends Component {
 															<Button
 																variant="danger"
 																onClick={() => {
-																	this.deleteTransition(globals.selectedState, t.index);
+																	this.deleteTransition(
+																		globals.selectedState,
+																		t.index
+																	);
 																}}
 															>
 																<FontAwesomeIcon icon={faTrash} />

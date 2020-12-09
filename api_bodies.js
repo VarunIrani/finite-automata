@@ -179,7 +179,7 @@ const mealy_result = {
 	]
 };
 
-// * Mealy Body Example
+// * Moore Body Example
 const moore_body = {
 	machine_name: "Varun's Moore",
 	machine_type: MachineTypes.MOORE,

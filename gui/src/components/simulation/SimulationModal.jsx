@@ -1,7 +1,8 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
-import { MachineType, StateType } from '../../enums';
-import axios from 'axios';
+import { FAWithoutOutput, FAWithOutput } from '../../enums';
+import { validateFAWithoutOutput, validateFAWithOutput } from './validations';
 
 class SimulationModal extends Component {
 	constructor(props) {
@@ -21,120 +22,13 @@ class SimulationModal extends Component {
 		this.setState({ testStrings: noSpaceValue.split(',') });
 	}
 
-	validate(machineType, alphabets) {
-		const states = this.props.states;
-		let errors = [];
-		let machineData = {};
-		machineData.machine_name = 'Test Machine';
-		machineData.machine_type = machineType;
-		machineData.alphabet_count = alphabets.length;
-		machineData.alphabets = alphabets;
-		machineData.state_count = states.length;
-		machineData.states = [];
-		if (states.length === 0) {
-			errors.push("There aren't any states in your diagram.");
-		}
-
-		let initialStateCount = 0;
-		let finalStateCount = 0;
-		let count = 0;
-
-		states.forEach((s) => {
-			if (s.stateType === StateType.INITIAL) initialStateCount += 1;
-			if (s.stateType === StateType.FINAL) finalStateCount += 1;
-			s.transitions.forEach((t) => {
-				let value = t.value;
-				value = value.replace(/ /g, '');
-				if (value.includes(',') && alphabets.every((a) => value.includes(a))) {
-					count += value.split(',').length;
-				} else {
-					if (alphabets.some((a) => value.includes(a))) count += 1;
-				}
-			});
-		});
-
-		if (finalStateCount === 0) errors.push('There are no final states. Please add at least one final state.');
-
-		if (initialStateCount === 0) errors.push('There is no initial state. Please add one initial state.');
-		else if (initialStateCount > 1) errors.push('There can be only one initial state.');
-
-		if (machineType === MachineType.DFA) {
-			if (count !== alphabets.length * states.length)
-				errors.push('Incomplete transitions or not enough transitions.');
-			else {
-				states.forEach((s) => {
-					machineData.states.push({
-						name: s.name,
-						type: s.stateType,
-						transitions: s.transitions.map((t) => {
-							let tr = {};
-							if (t.value.includes(',')) {
-								let v = t.value.replace(/ /g, '').split(',');
-								v.forEach((e) => {
-									tr[e] = t.to.name;
-								});
-							} else {
-								tr[t.value] = t.to.name;
-							}
-							return tr;
-						})
-					});
-				});
-			}
-		} else if (machineType === MachineType.NFA) {
-			if (count === 0) errors.push('Incomplete transitions or not enough transitions.');
-			else {
-				const noTransitionStates = states.filter((s) => s.transitions.length === 0);
-				const withTransitionStates = states.filter((s) => s.transitions.length !== 0);
-				noTransitionStates.forEach((s) => {
-					machineData.states.push({
-						name: s.name,
-						type: s.stateType,
-						transitions: [ ...Array(1) ].map((e) => {
-							let tr = {};
-							alphabets.forEach((a) => {
-								tr[a] = '$$';
-							});
-							return tr;
-						})
-					});
-				});
-				withTransitionStates.forEach((s) => {
-					machineData.states.push({
-						name: s.name,
-						type: s.stateType,
-						transitions: [ ...Array(1) ].map((e) => {
-							let tr = {};
-							alphabets.forEach((a) => {
-								tr[a] = '$$';
-							});
-							s.transitions.forEach((t) => {
-								if (t.value.includes(',')) {
-									let v = t.value.replace(/ /g, '').split(',');
-									v.forEach((e) => {
-										if (tr[e] !== '$$') {
-											tr[e] += ',' + t.to.name;
-										} else {
-											tr[e] = t.to.name;
-										}
-									});
-								} else {
-									if (tr[t.value] !== '$$') {
-										tr[t.value] += ',' + t.to.name;
-									} else {
-										tr[t.value] = t.to.name;
-									}
-								}
-							});
-							return tr;
-						})
-					});
-				});
-			}
-		}
-
-		if (errors.length === 0) this.setState({ errors, valid: true, machineData });
-		else this.setState({ errors, valid: false });
+	validate(machineType, inputAlphabets, outputAlphabets) {
+		let result;
+		if (machineType === FAWithoutOutput.DFA || machineType === FAWithoutOutput.NFA)
+			result = validateFAWithoutOutput(machineType, inputAlphabets, this.props.states);
+		else if (machineType === FAWithOutput.MEALY || machineType === FAWithOutput.MOORE)
+			result = validateFAWithOutput(machineType, inputAlphabets, outputAlphabets, this.props.states);
+		this.setState({ ...result });
 	}
 
 	prepareTestCases() {
@@ -144,10 +38,20 @@ class SimulationModal extends Component {
 		}
 		let machineData = this.state.machineData;
 		machineData.test_strings = this.state.testStrings;
+		let route = '';
+		if (machineData.machine_type === FAWithOutput.MEALY) {
+			route = 'mealy-diagram';
+			// TODO: Revert once deployed
+			machineData.machine_type = 0;
+		} else if (machineData.machine_type === FAWithOutput.MOORE) {
+			route = 'moore-diagram';
+			// TODO: Revert once deployed
+			machineData.machine_type = 1;
+		} else route = 'diagram';
 		if (errors.length === 0) {
 			axios({
 				method: 'POST',
-				url: 'https://fasim.herokuapp.com/diagram',
+				url: `https://fasim.herokuapp.com/${route}`,
 				data: JSON.stringify(machineData),
 				headers: {
 					'Content-Type': 'application/json'
@@ -157,7 +61,7 @@ class SimulationModal extends Component {
 					this.props.setSimulationData(r.data);
 					this.close.click();
 				})
-				.catch((e) => console.log(e));
+				.catch((e) => e);
 		}
 		this.setState({ errors });
 	}
@@ -165,11 +69,17 @@ class SimulationModal extends Component {
 	render() {
 		let machineType = '';
 		switch (this.props.machineType) {
-			case MachineType.DFA:
+			case FAWithoutOutput.DFA:
 				machineType = 'DFA';
 				break;
-			case MachineType.NFA:
+			case FAWithoutOutput.NFA:
 				machineType = 'NFA';
+				break;
+			case FAWithOutput.MEALY:
+				machineType = 'Mealy Machine';
+				break;
+			case FAWithOutput.MOORE:
+				machineType = 'Moore Machine';
 				break;
 			default:
 				break;
@@ -223,7 +133,17 @@ class SimulationModal extends Component {
 							Prepare Test Cases
 						</Button>
 					) : (
-						<Button variant="success" onClick={() => this.validate(this.props.machineType, [ '0', '1' ])}>
+						<Button
+							variant="success"
+							onClick={() => {
+								if (
+									this.props.machineType === FAWithOutput.MEALY ||
+									this.props.machineType === FAWithOutput.MOORE
+								)
+									this.validate(this.props.machineType, [ 'a', 'b' ], [ '0', '1' ]);
+								else this.validate(this.props.machineType, [ '0', '1' ], []);
+							}}
+						>
 							Validate
 						</Button>
 					)}

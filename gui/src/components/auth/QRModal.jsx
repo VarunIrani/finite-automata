@@ -14,28 +14,42 @@ export default class QRModal extends Component {
 	}
 
 	getQRImage() {
-		Axios({
-			method: 'GET',
-			url: 'https://fasim.herokuapp.com/qr'
-		}).then((res) => {
-			this.setState({ qrCodeValue: res.data.toString() });
-		});
+		if (this.props.show) {
+			if (this.state.qrCodeValue.length) {
+				Axios({
+					method: 'DELETE',
+					url: `https://fasim.herokuapp.com/qr?qr=${this.state.qrCodeValue}`
+				}).then((res) => {
+					console.log(res.data);
+				});
+			}
+			Axios({
+				method: 'GET',
+				url: 'https://fasim.herokuapp.com/qr'
+			}).then((res) => {
+				this.setState({ qrCodeValue: res.data.toString() });
+			});
+		}
 	}
 
 	hasUserPing() {
-		console.log(this.state.qrCodeValue);
-		Axios({
-			method: 'GET',
-			url: `https://fasim.herokuapp.com/has-user?qr=${this.state.qrCodeValue}`
-		}).then((res) => {
-			console.log(res.data);
-		});
+		if (this.props.show) {
+			Axios({
+				method: 'GET',
+				url: `https://fasim.herokuapp.com/has-user?qr=${this.state.qrCodeValue}`
+			}).then((res) => {
+				if (res.data.status !== 'No') {
+					this.props.handleQRClose();
+					this.props.setUser(res.data);
+				}
+			});
+		}
 	}
 
 	componentDidMount() {
 		this.getQRImage();
 		setInterval(this.getQRImage, 20 * 1000);
-		setInterval(this.hasUserPing, 1 * 1000);
+		setInterval(this.hasUserPing, 500);
 	}
 
 	render() {

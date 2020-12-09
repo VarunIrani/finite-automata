@@ -11,19 +11,30 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			simulationData: null,
-			loggedIn: false
+			loggedIn: false,
+			user: null
 		};
 		this.handleQRClose = this.handleQRClose.bind(this);
+		this.setUser = this.setUser.bind(this);
 	}
 
 	handleQRClose() {
 		this.setState({ loggedIn: !this.state.loggedIn });
 	}
 
+	setUser(user) {
+		this.setState({ user });
+		localStorage.setItem('user', JSON.stringify(user));
+	}
+
 	render() {
 		return (
 			<React.Fragment>
-				<QRModal show={!this.state.loggedIn} handleQRClose={this.handleQRClose} />
+				<QRModal
+					show={!this.state.loggedIn}
+					handleQRClose={this.handleQRClose}
+					setUser={(user) => this.setUser(user)}
+				/>
 				<Sketch
 					ref={(node) => {
 						this.sketch = node;
@@ -42,6 +53,7 @@ class App extends React.Component {
 								toggleSimulation={(machineType) => {
 									this.sketch.toggleSimulation(machineType);
 								}}
+								user={this.state.user}
 							/>
 						</Col>
 					</Row>
@@ -63,11 +75,23 @@ class App extends React.Component {
 							<SimulationPlayer
 								simulationData={this.state.simulationData}
 								setTestCase={(index) => {
-									this.sketch.setTestCase({
-										testString: this.state.simulationData.test_strings[index],
-										testCaseNumber: index,
-										testCase: this.state.simulationData.transitions[index][index]
-									});
+									// TODO: Why is this a string??!!!
+									const machineType = this.state.simulationData.machine_type;
+									if (machineType === 'MEALY' || machineType === 'MOORE') {
+										this.sketch.showFAWithOutputTest({
+											testString: this.state.simulationData.test_strings[index],
+											testCaseNumber: index,
+											testCase: this.state.simulationData.transitions[index].transition,
+											output: this.state.simulationData.transitions[index].result,
+											machineType
+										});
+									} else {
+										this.sketch.showFAWithoutOutputTest({
+											testString: this.state.simulationData.test_strings[index],
+											testCaseNumber: index,
+											testCase: this.state.simulationData.transitions[index][index]
+										});
+									}
 								}}
 							/>
 						</Col>
