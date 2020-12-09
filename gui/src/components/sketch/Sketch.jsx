@@ -1,7 +1,6 @@
 import p5 from 'p5';
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import { StateType } from '../../enums';
 import globals from '../../globals';
 import SimulationModal from '../simulation/SimulationModal';
 import SettingsModal from './SettingsModal';

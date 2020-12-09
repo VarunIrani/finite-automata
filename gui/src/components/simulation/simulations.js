@@ -63,25 +63,22 @@ export const showFAWithoutOutputTest = (testCaseData, sketch) => {
 	}, time);
 
 	const setColor = function(state, rest, i) {
-		setTimeout(
-			function() {
-				sketch.setState({ currentIndex: i });
-				state.forEach((s) => {
-					if (s !== undefined) {
-						if (s.stateType === StateType.FINAL || s.stateType === StateType.INITIAL_FINAL) {
-							s.color = '#01d6a4';
-						} else {
-							s.color = '#ff6868';
-						}
+		setTimeout(function() {
+			sketch.setState({ currentIndex: i });
+			state.forEach((s) => {
+				if (s !== undefined) {
+					if (s.stateType === StateType.FINAL || s.stateType === StateType.INITIAL_FINAL) {
+						s.color = '#01d6a4';
+					} else {
+						s.color = '#ff6868';
 					}
-				});
-				rest.forEach((r) => {
-					r.color = 255;
-				});
-			}.bind(sketch),
-			time * i
-		);
-	}.bind(sketch);
+				}
+			});
+			rest.forEach((r) => {
+				r.color = 255;
+			});
+		}, time * i);
+	};
 
 	function clearColors(states, i) {
 		setTimeout(function() {
@@ -123,22 +120,10 @@ export const showFAWithOutputTest = (testCaseData, sketch) => {
 	else resultText.innerHTML = result.charAt(0);
 
 	sketch.setState({ testString: [ ...testCaseData.testString ].reverse() });
-	let d;
+	// let d;
 
-	if (data.map((t) => t['N']).indexOf('N') === -1) d = data.length;
-	else d = data.map((t) => t['N']).indexOf('N');
-
-	let lastTransition = data[d - 1];
-	const lastState = states.filter((s) => {
-		let lastStates = Object.values(lastTransition)[0];
-		if (lastStates.includes(',')) {
-			const transitions = lastStates.split(',');
-			const lastStateName = transitions[transitions.length - 1];
-			return s.name === lastStateName;
-		} else {
-			return s.name === lastStates;
-		}
-	})[0];
+	// if (data.map((t) => t['N']).indexOf('N') === -1) d = data.length;
+	// else d = data.map((t) => t['N']).indexOf('N');
 
 	if (data.filter((t) => Object.keys(t)[0] === 'N').length < 1) data.push({ N: 'N' });
 
@@ -171,22 +156,19 @@ export const showFAWithOutputTest = (testCaseData, sketch) => {
 	}, time);
 
 	const setColor = function(state, rest, i) {
-		setTimeout(
-			function() {
-				sketch.setState({ currentIndex: i });
-				resultText.innerHTML += result.charAt(i);
-				state.forEach((s) => {
-					if (s !== undefined) {
-						s.color = '#adaaff';
-					}
-				});
-				rest.forEach((r) => {
-					r.color = 255;
-				});
-			}.bind(sketch),
-			time * i
-		);
-	}.bind(sketch);
+		setTimeout(function() {
+			sketch.setState({ currentIndex: i });
+			resultText.innerHTML += result.charAt(i);
+			state.forEach((s) => {
+				if (s !== undefined) {
+					s.color = '#adaaff';
+				}
+			});
+			rest.forEach((r) => {
+				r.color = 255;
+			});
+		}, time * i);
+	};
 
 	function clearColors(states, i) {
 		setTimeout(function() {
