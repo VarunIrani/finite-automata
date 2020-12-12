@@ -43,7 +43,8 @@ class SimulationPlayer extends Component {
 									<Row key={index} className="justify-content-between align-items-center mb-3 px-3">
 										<p className={`p-0 m-0 my-auto`} style={{ fontSize: 18 }}>
 											<b>
-												Test {index + 1} Result - <span id={`result-${index}`} />
+												Test {index + 1} Result -{' '}
+												<span id={`result-${index}`} className="result" />
 											</b>
 										</p>
 									</Row>

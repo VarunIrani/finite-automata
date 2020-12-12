@@ -14,7 +14,7 @@ export const showFAWithoutOutputTest = (testCaseData, sketch) => {
 		r.color = 255;
 	});
 
-	initial.color = '#ff6868';
+	initial.color = '#adaaff';
 	const states = sketch.state.states;
 	const data = testCaseData.testCase;
 	const testCaseNumber = testCaseData.testCaseNumber;
@@ -86,12 +86,12 @@ export const showFAWithoutOutputTest = (testCaseData, sketch) => {
 				if (s !== undefined) s.color = 255;
 			});
 			if (lastState === undefined) {
-				if (!resultText.classList.contains('text-danger')) resultText.classList.add('text-danger');
+				resultText.className = 'result text-danger';
 			} else {
 				if (lastState.stateType === StateType.FINAL || lastState.stateType === StateType.INITIAL_FINAL) {
-					if (!resultText.classList.contains('text-success')) resultText.classList.add('text-success');
+					resultText.className = 'result text-success';
 				} else {
-					if (!resultText.classList.contains('text-danger')) resultText.classList.add('text-danger');
+					resultText.className = 'result text-danger';
 				}
 			}
 			resultText.innerHTML = data.result;
@@ -100,7 +100,6 @@ export const showFAWithoutOutputTest = (testCaseData, sketch) => {
 };
 
 export const showFAWithOutputTest = (testCaseData, sketch) => {
-	// TODO: Mealy and moore simulation
 	sketch.setState({ currentIndex: -1 });
 	const time = 1000;
 	const initial = sketch.state.states.filter((s) => s.stateType === StateType.INITIAL)[0];
@@ -120,10 +119,6 @@ export const showFAWithOutputTest = (testCaseData, sketch) => {
 	else resultText.innerHTML = result.charAt(0);
 
 	sketch.setState({ testString: [ ...testCaseData.testString ].reverse() });
-	// let d;
-
-	// if (data.map((t) => t['N']).indexOf('N') === -1) d = data.length;
-	// else d = data.map((t) => t['N']).indexOf('N');
 
 	if (data.filter((t) => Object.keys(t)[0] === 'N').length < 1) data.push({ N: 'N' });
 

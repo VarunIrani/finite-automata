@@ -32,6 +32,7 @@ class SimulationModal extends Component {
 	}
 
 	prepareTestCases() {
+		document.querySelectorAll(`.result`).forEach((e) => (e.innerHTML = ''));
 		let errors = [];
 		if (this.state.testStrings.length === 0) {
 			errors.push('Please enter at least one test string');
@@ -136,12 +137,11 @@ class SimulationModal extends Component {
 						<Button
 							variant="success"
 							onClick={() => {
-								if (
-									this.props.machineType === FAWithOutput.MEALY ||
-									this.props.machineType === FAWithOutput.MOORE
-								)
-									this.validate(this.props.machineType, [ 'a', 'b' ], [ '0', '1' ]);
-								else this.validate(this.props.machineType, [ '0', '1' ], []);
+								this.validate(
+									this.props.machineType,
+									this.props.inputSymbols,
+									this.props.outputSymbols
+								);
 							}}
 						>
 							Validate

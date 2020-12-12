@@ -8,8 +8,8 @@ import State from './State';
 import { showFAWithoutOutputTest, showFAWithOutputTest } from '../simulation/simulations';
 
 const LETTERS = (() => {
-	const caps = [ ...Array(26) ].map((val, i) => String.fromCharCode(i + 65));
-	return caps.concat(caps.map((letter) => letter.toLowerCase()));
+	const caps = [ ...Array(26) ].map((val, i) => `q${i}`);
+	return caps;
 })();
 
 class Sketch extends React.Component {
@@ -192,6 +192,8 @@ class Sketch extends React.Component {
 					/>
 				) : null}
 				<SimulationModal
+					inputSymbols={this.props.inputSymbols}
+					outputSymbols={this.props.outputSymbols}
 					machineType={this.state.machineType}
 					states={this.state.states}
 					show={this.state.hideSimulation}

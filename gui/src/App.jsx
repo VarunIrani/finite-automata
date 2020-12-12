@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuBar from './components/nav/MenuBar';
 import Sketch from './components/sketch/Sketch';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import ToolBar from './components/tools/ToolBar';
 import SimulationPlayer from './components/tools/SimulationPlayer';
 import QRModal from './components/auth/QRModal';
@@ -12,9 +12,13 @@ class App extends React.Component {
 		this.state = {
 			simulationData: null,
 			loggedIn: false,
-			user: null
+			user: null,
+			inputSymbols: [ '0', '1' ],
+			outputSymbols: [ '0', '1' ]
 		};
 		this.handleQRClose = this.handleQRClose.bind(this);
+		this.changeInputSymbols = this.changeInputSymbols.bind(this);
+		this.changeOutputSymbols = this.changeOutputSymbols.bind(this);
 		this.setUser = this.setUser.bind(this);
 	}
 
@@ -27,7 +31,26 @@ class App extends React.Component {
 		localStorage.setItem('user', JSON.stringify(user));
 	}
 
+	changeInputSymbols() {
+		if (this.inputText.value.length > 0) {
+			this.setState({ inputSymbols: this.inputText.value.replace(/ /g, '').split('').filter((e) => e !== ',') });
+		} else {
+			this.setState({ inputSymbols: [ '0', '1' ] });
+		}
+	}
+
+	changeOutputSymbols() {
+		if (this.outputText.value.length > 0) {
+			this.setState({
+				outputSymbols: this.outputText.value.replace(/ /g, '').split('').filter((e) => e !== ',')
+			});
+		} else {
+			this.setState({ outputSymbols: [ '0', '1' ] });
+		}
+	}
+
 	render() {
+		// console.log(this.state.inputSymbols, this.state.outputSymbols);
 		return (
 			<React.Fragment>
 				<QRModal
@@ -39,6 +62,8 @@ class App extends React.Component {
 					ref={(node) => {
 						this.sketch = node;
 					}}
+					inputSymbols={this.state.inputSymbols}
+					outputSymbols={this.state.outputSymbols}
 					setSimulationData={(simulationData) => {
 						this.setState({ simulationData });
 					}}
@@ -66,6 +91,32 @@ class App extends React.Component {
 									this.sketch.addState(stateType);
 								}}
 							/>
+						</Col>
+						<Col sm="2" style={{ zIndex: 999, position: 'absolute', top: 80, left: 120 }}>
+							<Row>
+								<Form.Label>Input Alphabet</Form.Label>
+								<Form.Control
+									defaultValue="0, 1"
+									ref={(n) => (this.inputText = n)}
+									aria-label="Input Alphabet"
+									aria-describedby="input-alphabet"
+									placeholder="Input Alphabet"
+									// value={this.state.outputSymbols.join(',')}
+									onChange={this.changeInputSymbols}
+								/>
+							</Row>
+							<Row className="mt-2">
+								<Form.Label>Output Alphabet</Form.Label>
+								<Form.Control
+									defaultValue="0, 1"
+									ref={(n) => (this.outputText = n)}
+									aria-label="Output Alphabet"
+									aria-describedby="output-alphabet"
+									placeholder="Output Alphabet"
+									// value={this.state.outputSymbols.join(',')}
+									onChange={this.changeOutputSymbols}
+								/>
+							</Row>
 						</Col>
 					</Row>
 				</Container>

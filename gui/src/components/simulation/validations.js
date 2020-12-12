@@ -27,7 +27,7 @@ export const validateFAWithoutOutput = (machineType, alphabets, states) => {
 		s.transitions.forEach((t) => {
 			let value = t.value;
 			value = value.replace(/ /g, '');
-			if (value.includes(',') && alphabets.every((a) => value.includes(a))) {
+			if (value.includes(',') && alphabets.some((a) => value.includes(a))) {
 				count += value.split(',').length;
 			} else {
 				if (alphabets.some((a) => value.includes(a))) count += 1;
@@ -176,7 +176,7 @@ export const validateFAWithOutput = (machineType, inputAlphabets, outputAlphabet
 			s.transitions.forEach((t) => {
 				let value = t.value;
 				value = value.replace(/ /g, '');
-				if (value.includes(',') && inputAlphabets.every((a) => value.includes(a))) {
+				if (value.includes(',') && inputAlphabets.some((a) => value.includes(a))) {
 					count += value.split(',').length;
 				} else {
 					if (inputAlphabets.some((a) => value.includes(a))) count += 1;
