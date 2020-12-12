@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Dropdown, Image, Row, Col } from 'react-bootstrap';
+import { Navbar, Nav, Dropdown, Image, Row, Col, Button } from 'react-bootstrap';
 import fasimLogo from '../../assets/fasim.png';
 import { FAWithoutOutput, FAWithOutput } from '../../enums';
 
@@ -62,9 +62,16 @@ class MenuBar extends React.Component {
 						</Dropdown>
 					</Nav>
 					<Nav className="text-white">
-						<span>
-							Welcome to FASIM{this.props.user ? ', ' + JSON.stringify(this.props.user.name) : ''}
-						</span>
+						<Row className="align-items-center">
+							<span className="mr-3">
+								Welcome to FASIM{this.props.user ? ', ' + this.props.user.name : ''}
+							</span>
+							{this.props.user ? (
+								<Button variant="danger" className="mr-3" onClick={this.props.logout}>
+									Logout
+								</Button>
+							) : null}
+						</Row>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>

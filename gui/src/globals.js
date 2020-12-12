@@ -1,7 +1,7 @@
 let globals = {
-  showSettings: false,
-  showSimulation: false,
-  selectedState: null,
+	showSettings: false,
+	showSimulation: false,
+	selectedState: null
 };
 
 export default globals;

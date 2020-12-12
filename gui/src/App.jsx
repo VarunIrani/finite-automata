@@ -11,8 +11,8 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			simulationData: null,
-			loggedIn: false,
-			user: null,
+			loggedIn: JSON.parse(localStorage.getItem('user')) !== null,
+			user: JSON.parse(localStorage.getItem('user')),
 			inputSymbols: [ '0', '1' ],
 			outputSymbols: [ '0', '1' ]
 		};
@@ -50,7 +50,6 @@ class App extends React.Component {
 	}
 
 	render() {
-		// console.log(this.state.inputSymbols, this.state.outputSymbols);
 		return (
 			<React.Fragment>
 				<QRModal
@@ -79,6 +78,10 @@ class App extends React.Component {
 									this.sketch.toggleSimulation(machineType);
 								}}
 								user={this.state.user}
+								logout={() => {
+									localStorage.setItem('user', JSON.stringify(null));
+									window.location.reload();
+								}}
 							/>
 						</Col>
 					</Row>
