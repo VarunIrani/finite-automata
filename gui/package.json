@@ -1,9 +1,9 @@
 {
   "name": "finite-automata",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "private": true,
   "main": "public/electron.js",
-  "homepage": "http://varunirani.github.io/finite-automata",
+  "homepage": "./",
   "description": "A GUI for an interactive Finite Automata Simulator",
   "author": {
     "email": "varunirani0505@gmail.com",
@@ -36,7 +36,7 @@
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
-    "package": "electron-builder build -m -w -l -c.extraMetadata.main=build/electron.js --publish never"
+    "package": "electron-builder build -m -l -w -c.extraMetadata.main=build/electron.js --publish never"
   },
   "eslintConfig": {
     "extends": "react-app"

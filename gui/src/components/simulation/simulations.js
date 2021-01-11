@@ -21,22 +21,22 @@ export const showFAWithoutOutputTest = (testCaseData, sketch) => {
 	const resultText = document.querySelector(`#result-${testCaseNumber}`);
 
 	sketch.setState({ testString: [ ...testCaseData.testString ].reverse() });
-	let d;
+	// let d;
 
-	if (data.transition.map((t) => t['N']).indexOf('N') === -1) d = data.transition.length;
-	else d = data.transition.map((t) => t['N']).indexOf('N');
+	// if (data.transition.map((t) => t['N']).indexOf('N') === -1) d = data.transition.length;
+	// else d = data.transition.map((t) => t['N']).indexOf('N');
 
-	let lastTransition = data.transition[d - 1];
-	const lastState = states.filter((s) => {
-		let lastStates = Object.values(lastTransition)[0];
-		if (lastStates.includes(',')) {
-			const transitions = lastStates.split(',');
-			const lastStateName = transitions[transitions.length - 1];
-			return s.name === lastStateName;
-		} else {
-			return s.name === lastStates;
-		}
-	})[0];
+	// let lastTransition = data.transition[d - 1];
+	// const lastState = states.filter((s) => {
+	// 	let lastStates = Object.values(lastTransition)[0];
+	// 	if (lastStates.includes(',')) {
+	// 		const transitions = lastStates.split(',');
+	// 		const lastStateName = transitions[transitions.length - 1];
+	// 		return s.name === lastStateName;
+	// 	} else {
+	// 		return s.name === lastStates;
+	// 	}
+	// })[0];
 
 	if (data.transition.filter((t) => Object.keys(t)[0] === 'N').length < 1) data.transition.push({ N: 'N' });
 
@@ -85,15 +85,6 @@ export const showFAWithoutOutputTest = (testCaseData, sketch) => {
 			states.forEach((s) => {
 				if (s !== undefined) s.color = 255;
 			});
-			if (lastState === undefined) {
-				resultText.className = 'result text-danger';
-			} else {
-				if (lastState.stateType === StateType.FINAL || lastState.stateType === StateType.INITIAL_FINAL) {
-					resultText.className = 'result text-success';
-				} else {
-					resultText.className = 'result text-danger';
-				}
-			}
 			resultText.innerHTML = data.result;
 		}, time * i);
 	}
